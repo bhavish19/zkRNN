@@ -1,0 +1,13 @@
+To build zkRNN, first
+> chmod +x build.sh
+Then run it by calling :
+> ./build.sh
+
+For zkRNN run one of the scripts given by running:
+> ./rnn_test_self.sh
+
+Each script calls ./main {time step} {input size} {hidden size} {output size} {PC type} {arity}
+
+For {PC type}, 1 corresponds to Orion and 2 to Virgo. 
+
+
