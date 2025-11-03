@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <string.h>
+#include <string>
 #include <time.h>
 #include "mimc.h"
 #include "quantization.h"
@@ -73,6 +74,122 @@ extern int in_size;
 int arity = 3;
 vector<F> x_transcript,y_transcript;
 F current_randomness;
+
+static bool load_inputs_from_file(vector<vector<F>>& X,
+                                  const std::string& path,
+                                  int T,
+                                  int n) {
+    std::ifstream in(path);
+    if (!in) {
+        std::fprintf(stderr, "[infer] Unable to open input file: %s\n", path.c_str());
+        return false;
+    }
+
+    const size_t expected = static_cast<size_t>(T) * static_cast<size_t>(n);
+    std::vector<float> flat;
+    flat.reserve(expected);
+
+    double value;
+    while (flat.size() < expected && (in >> value)) {
+        flat.push_back(static_cast<float>(value));
+    }
+
+    if (flat.size() != expected) {
+        std::fprintf(stderr,
+                     "[infer] Expected %zu input scalars but read %zu from %s\n",
+                     expected,
+                     flat.size(),
+                     path.c_str());
+        return false;
+    }
+
+    X.assign(T, std::vector<F>(n, F_ZERO));
+    size_t idx = 0;
+    for (int t = 0; t < T; ++t) {
+        for (int j = 0; j < n; ++j) {
+            X[t][j] = quantize(flat[idx++]);
+        }
+    }
+
+    if (in >> value) {
+        std::fprintf(stderr,
+                     "[infer] Warning: extra values detected in %s; ignoring the tail\n",
+                     path.c_str());
+    }
+
+    return true;
+}
+
+static bool load_model_from_file(rnn_layer& net,
+                                 const std::string& path,
+                                 int n,
+                                 int m,
+                                 int k) {
+    std::ifstream in(path);
+    if (!in) {
+        std::fprintf(stderr, "[infer] Unable to open model file: %s\n", path.c_str());
+        return false;
+    }
+
+    const size_t expected = static_cast<size_t>(n) * static_cast<size_t>(m)
+                          + static_cast<size_t>(m) * static_cast<size_t>(m)
+                          + static_cast<size_t>(k) * static_cast<size_t>(m)
+                          + static_cast<size_t>(m)
+                          + static_cast<size_t>(k);
+
+    std::vector<float> values;
+    values.reserve(expected);
+
+    double value;
+    while (values.size() < expected && (in >> value)) {
+        values.push_back(static_cast<float>(value));
+    }
+
+    if (values.size() != expected) {
+        std::fprintf(stderr,
+                     "[infer] Expected %zu model scalars but read %zu from %s\n",
+                     expected,
+                     values.size(),
+                     path.c_str());
+        return false;
+    }
+
+    size_t idx = 0;
+
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            net.W_x[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < m; ++j) {
+            net.W_h[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < k; ++i) {
+        for (int j = 0; j < m; ++j) {
+            net.W_y[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < m; ++i) {
+        net.b1[i] = quantize(values[idx++]);
+    }
+
+    for (int i = 0; i < k; ++i) {
+        net.b2[i] = quantize(values[idx++]);
+    }
+
+    if (in >> value) {
+        std::fprintf(stderr,
+                     "[infer] Warning: extra values detected in %s; ignoring the tail\n",
+                     path.c_str());
+    }
+
+    return true;
+}
 
 double PeakMemGB() {
   unsigned long long bytes = 0ULL;
@@ -1386,57 +1503,169 @@ vector<vector<F>> init_input(int T, int n)
 } 
 
 int main(int argc, char *argv[]){
-	
-	init_hash();
+    if (argc < 7) {
+        std::fprintf(stderr,
+                     "Usage: %s T n m k pc_type arity [--mode=train|infer] [--model=path] [--inputs=path]\n",
+                     argv[0]);
+        return 1;
+    }
+
+    init_hash();
     init_SHA();
-	PC_scheme = 1;
-	Commitment_hash = 1;
-	levels = 2;
-	
-   	int T = atoi(argv[1]); //seq_len
-   	int n = atoi(argv[2]);//input_size
-	int m = atoi(argv[3]);//hidden_size
-	int k = atoi(argv[4]); //output_size
-	PC_scheme = atoi(argv[5]);
-	arity = atoi(argv[6]);
+    PC_scheme = 1;
+    Commitment_hash = 1;
+    levels = 2;
+    
+    int T = atoi(argv[1]); //seq_len
+    int n = atoi(argv[2]);//input_size
+    int m = atoi(argv[3]);//hidden_size
+    int k = atoi(argv[4]); //output_size
+    PC_scheme = atoi(argv[5]);
+    arity = atoi(argv[6]);
 
-	vector<vector<vector<vector<F>>>> witness_matrixes_rnn(1);
-	vector<vector<commitment>> comm_aggr_rnn(1);
-	
-	vector<struct proof> total_aggr_first_transcript;
-	vector<F> total_aggr_first_hash;
+    std::string mode = "train";
+    std::string model_path;
+    std::string input_path;
 
-	vector<vector<vector<vector<F>>>> proof_witness_matrixes_rnn(1);
-	vector<vector<commitment>> proof_comm_aggr_rnn(1);
+    for (int i = 7; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg.rfind("--mode=", 0) == 0) {
+            mode = arg.substr(7);
+        } else if (arg.rfind("--model=", 0) == 0) {
+            model_path = arg.substr(8);
+        } else if (arg.rfind("--inputs=", 0) == 0) {
+            input_path = arg.substr(9);
+        } else {
+            std::fprintf(stderr, "Unknown argument: %s\n", arg.c_str());
+            return 1;
+        }
+    }
 
-	float RNN_PoGDsize;
+    const bool is_inference = (mode == "infer" || mode == "inference");
 
-	float commitment_time = 0.0;
-	double recursion_verifier_time = 0.0;
+    vector<vector<F>> X_rnn;
+    if (!input_path.empty()) {
+        if (!load_inputs_from_file(X_rnn, input_path, T, n)) {
+            return 1;
+        }
+    } else {
+        X_rnn = init_input(T, n);
+    }
 
-	vector<vector<F>> X_rnn = init_input(T, n);
-	float aggregation_time_recursion = 0.0;
-	//TODO 需要把这里生成的hash加入到总hash里
-	check_input_rnn(T,n);
-	float rnn_data_prove_time = total_prove;
-	printf("PoGD dataset proving time: %lf\n", rnn_data_prove_time);
-	printf("PoGD dataset check size: %lf\n",proof_size(Transcript));
+    vector<F> h0(m, F(0));
+    struct rnn_layer rnn_net = rnn_init(T,n,m,k);
 
-	vector<F> h0(m, F(0));
+    if (!model_path.empty()) {
+        if (!load_model_from_file(rnn_net, model_path, n, m, k)) {
+            return 1;
+        }
+    }
 
-	F lr = quantize(0.01);
+    if (is_inference) {
+        Transcript.clear();
+        x_transcript.clear();
 
-	Transcript.clear();
+        total_prove = 0.0;
+        Forward_propagation_rnn = 0.0;
+        total_foward = 0.0;
+        logup_acc_total_time = 0.0;
+        logup_acc_prove_time = 0.0;
+        total_logup = 0.0;
+        total_logup_prove = 0.0;
 
-	vector<int> labels(T);
-	vector<vector<F>> y_true(T, vector<F>(k, F(0)));
-	for(int t = 0; t < T; ++t) {
-    	int cls = labels[t];        // 真正的类别编号
-    	y_true[t][cls] = quantize(1.0f);  // 量化域中的“1.0”
-	}
+        rnn_net = rnn_forward(rnn_net, X_rnn, h0);
 
-	struct rnn_layer rnn_net = rnn_init(T,n,m,k);
-	printf("RNN Model initialized.\n");
+        std::vector<F> witness_rnn;
+        get_witness_rnn(rnn_net, witness_rnn);
+
+        std::vector<F> model_rnn;
+        get_model_rnn(rnn_net, model_rnn);
+        witness_rnn.insert(witness_rnn.end(), model_rnn.begin(), model_rnn.end());
+        pad_vector(witness_rnn);
+
+        std::vector<std::vector<F>> witness_matrix_rnn;
+        commitment commitment_rnn;
+        double commit_before = g_commit_general;
+        poly_commit(witness_rnn, witness_matrix_rnn, commitment_rnn, levels);
+        double commit_time = g_commit_general - commit_before;
+
+        prove_rnn_forward(rnn_net, h0);
+
+        float forward_proof_size = proof_size(Transcript);
+        printf("Inference proof size: %lf\n", forward_proof_size);
+
+        reset_gkr_verifier_time();
+        verify_proof(Transcript);
+        double inference_verifier_time = get_gkr_verifier_time();
+        printf("Inference verifier time: %lf\n", inference_verifier_time);
+
+        BenchmarkRow row;
+        row.timestamp = now_iso8601();
+        row.hostname = get_hostname();
+        row.T = T; row.n = n; row.m = m; row.k = k;
+        row.PC_scheme = PC_scheme;
+        row.Commitment_hash = Commitment_hash;
+        row.levels = levels;
+        row.arity = 1;
+        row.param_count = 1LL*n*m + 1LL*m*m + 1LL*k*m + m + k;
+        row.data_prove_time = 0.0;
+        row.avg_update = 0.0;
+        row.avg_backward = 0.0;
+        row.avg_forward = Forward_propagation_rnn;
+        row.avg_logup = logup_acc_total_time;
+        row.avg_logup_prove = logup_acc_prove_time;
+        row.avg_pogd = 0.0;
+        row.agg_recursion_total = 0.0;
+        row.agg_recursion_amort = 0.0;
+        row.aggr_time_total = 0.0;
+        row.aggr_time_avg = 0.0;
+        row.aggr_prove_total = 0.0;
+        row.aggr_prove_avg = 0.0;
+        row.commit_time_avg = commit_time;
+        row.recursion_verifier_time = inference_verifier_time;
+        row.verifier_time = inference_verifier_time;
+        row.pogd_proof_size = 0.0f;
+        row.final_proof_size = forward_proof_size;
+        row.peak_memory = PeakMemGB();
+
+        append_benchmark_csv("bench_results_infer.csv", row);
+        std::fprintf(stderr, "[bench] appended to bench_results_infer.csv\n");
+
+        return 0;
+    }
+
+    printf("RNN Model initialized.\n");
+
+    vector<vector<vector<vector<F>>>> witness_matrixes_rnn(1);
+    vector<vector<commitment>> comm_aggr_rnn(1);
+
+    vector<struct proof> total_aggr_first_transcript;
+    vector<F> total_aggr_first_hash;
+
+    vector<vector<vector<vector<F>>>> proof_witness_matrixes_rnn(1);
+    vector<vector<commitment>> proof_comm_aggr_rnn(1);
+
+    float RNN_PoGDsize;
+
+    float commitment_time = 0.0f;
+    double recursion_verifier_time = 0.0;
+    float aggregation_time_recursion = 0.0f;
+
+    check_input_rnn(T,n);
+    float rnn_data_prove_time = total_prove;
+    printf("PoGD dataset proving time: %lf\n", rnn_data_prove_time);
+    printf("PoGD dataset check size: %lf\n",proof_size(Transcript));
+
+    F lr = quantize(0.01);
+
+    Transcript.clear();
+
+    vector<int> labels(T);
+    vector<vector<F>> y_true(T, vector<F>(k, F(0)));
+    for(int t = 0; t < T; ++t) {
+        int cls = labels[t];        // 真正的类别编号
+        y_true[t][cls] = quantize(1.0f);  // 量化域中的“1.0”
+    }
 	
 	for(int i = 0; i < arity; i++){
 		witness_matrixes_rnn[0].clear();

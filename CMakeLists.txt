@@ -14,3 +14,4 @@ include_directories(lib)
 
 
 add_subdirectory(src)
+add_subdirectory(tests)
