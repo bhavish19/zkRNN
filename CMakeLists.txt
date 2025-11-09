@@ -11,7 +11,14 @@ link_directories(lib)
 include_directories(src)
 include_directories(lib)
 
+add_compile_definitions(PROJECT_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 
+add_library(XKCP STATIC IMPORTED GLOBAL)
+set_target_properties(XKCP PROPERTIES
+  IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/lib/libXKCP.a"
+  IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+  INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/lib/libXKCP.a.headers"
+)
 
 add_subdirectory(src)
 add_subdirectory(tests)

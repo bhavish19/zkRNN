@@ -1,10 +1,13 @@
 #include <atomic>
+#include <iostream>
+#include <cmath>
 #include <omp.h>
 #include "poly_commit.h"
 #include "utils.hpp"
 #include "GKR.h"
 #include "logup.hpp"
 #include "bench.hpp"
+#include "expanders.h"
 
 
 double logup_commit_time = 0.0;
@@ -44,7 +47,14 @@ namespace
 
     static TVecRootCache g_t_root_cache;
 
-    static std::atomic<bool> g_orion_inited{false};
+static std::atomic<bool> g_orion_inited{false};
+static std::atomic<bool> g_expand_inited{false};
+
+#ifdef DEBUG_LOGUP
+#define LOGUP_DBG(msg) do { std::cerr << "[logup] " << msg << std::endl; } while(0)
+#else
+#define LOGUP_DBG(msg) do {} while(0)
+#endif
 
     static inline int next_pow2(int x)
     {
@@ -250,7 +260,20 @@ static void commit_and_track(const vector<F> &vec,
                              int level)
 {
     double before = g_commit_logup;
-    poly_commit(vec, enc, com, level, CommitSrc::Logup);
+    vector<F> commit_vec(vec.begin(), vec.end());
+    size_t n = commit_vec.size();
+    if (n <= 1) {
+        F pad = (n == 0) ? F_ZERO : commit_vec[0];
+        commit_vec.resize(2, pad);
+        n = commit_vec.size();
+    }
+    int max_level = (n <= 1) ? 0 : static_cast<int>(std::floor(std::log2(static_cast<double>(n))));
+    int effective_level = std::min(level, max_level);
+    LOGUP_DBG("commit_and_track: requested level=" << level
+              << " vec_size=" << vec.size()
+              << " padded_size=" << n
+              << " effective_level=" << effective_level);
+    poly_commit(commit_vec, enc, com, effective_level, CommitSrc::Logup);
     double after = g_commit_logup;
     logup_commit_time += (after - before);
 }
@@ -262,6 +285,12 @@ struct proof prove_logup(const ExpBatch &batch, int table_logN, int threads)
     init_hyrax_logup_once(threads);
     const int N = 1 << table_logN;
     const int M = (int)batch.Xq.size();
+
+    if (!g_expand_inited.load(std::memory_order_acquire)) {
+        LOGUP_DBG("expander_init(" << N << ")");
+        expander_init(N);
+        g_expand_inited.store(true, std::memory_order_release);
+    }
 
     struct proof Pr;
     Pr.type = LOGUP_PROOF;
@@ -285,6 +314,7 @@ struct proof prove_logup(const ExpBatch &batch, int table_logN, int threads)
     }
     int m_pad = next_pow2(M);
     f_vec.resize(m_pad, F_ZERO);
+    LOGUP_DBG("vectors prepared M=" << M << " m_pad=" << m_pad << " N=" << N);
 
     vector<F> t_vec(N);
     #pragma omp parallel for
@@ -304,6 +334,7 @@ struct proof prove_logup(const ExpBatch &batch, int table_logN, int threads)
     if (!g_t_root_cache.get(table_logN, /*level=*/2, t_root_fields)) {
         vector<vector<F>> enc_t;
         commitment com_t;
+        LOGUP_DBG("commit_and_track(t_vec)");
         commit_and_track(t_vec, enc_t, com_t, /*level=*/2);
         t_root_fields = commitment_root_fields(com_t);
         g_t_root_cache.set(table_logN, /*level=*/2, t_root_fields);
@@ -311,7 +342,9 @@ struct proof prove_logup(const ExpBatch &batch, int table_logN, int threads)
     }
     vector<vector<F>> enc_f, enc_c;
     commitment com_f, com_c;
+    LOGUP_DBG("commit_and_track(f_vec)");
     commit_and_track(f_vec, enc_f, com_f, 2);
+    LOGUP_DBG("commit_and_track(c_vec)");
     commit_and_track(c_vec, enc_c, com_c, 2);
 
     F r = random_F();
@@ -338,7 +371,9 @@ struct proof prove_logup(const ExpBatch &batch, int table_logN, int threads)
     vector<vector<F>> enc_G, enc_H;
     commitment com_G, com_H;
     
+    LOGUP_DBG("commit_and_track(G)");
     commit_and_track(G, enc_G, com_G, 2);
+    LOGUP_DBG("commit_and_track(H)");
     commit_and_track(H, enc_H, com_H, 2);
 
     start = clock();

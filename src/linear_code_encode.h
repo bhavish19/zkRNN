@@ -9,6 +9,7 @@ inline int encode(const F *src, F *dst, long long n, int dep = 0)
 {
     if(!__encode_initialized)
     {
+        expander_init(n);
         __encode_initialized = true;
         for(int i = 0; (n >> i) > 1; ++i)
         {

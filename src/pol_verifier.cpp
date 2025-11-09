@@ -2,6 +2,7 @@
 #include "config_pc.hpp"
 #include "GKR.h"
 #include "mimc.h"
+#include "proof_utils.h"
 
 
 int gkr_proof_size(struct proof P){
@@ -451,61 +452,66 @@ void write_transcript(vector<vector<int>> tr, char *name){
 }
 
 
-struct proof verify_proof(vector<proof> proofs){
-	
+VerifyBundle BuildVerificationBundle(const std::vector<proof>& proofs){
+    x_transcript.clear();
+    y_transcript.clear();
+    current_randomness = F_ZERO;
 	vector<vector<int>> transcript;
 	vector<vector<F>> data;
-	for(int i = 0; i < proofs.size(); i++){
-		if(proofs[i].type == MATMUL_PROOF){
+	for (int i = 0; i < static_cast<int>(proofs.size()); i++) {
+		if (proofs[i].type == MATMUL_PROOF) {
 			verify_matrix2matrix(proofs[i]);
 			data.push_back(encode_m2m_proof(proofs[i]));
 			transcript.push_back(get_m2m_transcript(proofs[i]));
-		}else if(proofs[i].type == LOOKUP_PROOF){
-			for(int j =  0; j < proofs[i].proofs.size(); j++){
+		} else if (proofs[i].type == LOOKUP_PROOF) {
+			for (int j = 0; j < static_cast<int>(proofs[i].proofs.size()); j++) {
 				data.push_back(encode_lookup_proof(proofs[i].proofs[j]));
 				transcript.push_back(get_lookup_transcript(proofs[i].proofs[j]));
 			}
-		
-		}else if(proofs[i].type == HASH_SUMCHECK){
+		} else if (proofs[i].type == HASH_SUMCHECK) {
 			data.push_back(encode_hash_proof(proofs[i]));
 			transcript.push_back(get_hash_transcript(proofs[i]));
-		}
-		else if(proofs[i].type == RANGE_PROOF){
+		} else if (proofs[i].type == RANGE_PROOF) {
 			verify_bit_decomposition(proofs[i]);
 			data.push_back(encode_bit_decomposition(proofs[i]));
 			transcript.push_back(get_range_proof_transcript(proofs[i]));
-		}
-		else if(proofs[i].type == GKR_PROOF){
+        } else if (proofs[i].type == GKR_PROOF) {
 			verify_gkr(proofs[i]);
 			data.push_back(encode_gkr_proof(proofs[i]));
 			transcript.push_back(get_gkr_transcript(proofs[i]));
+        } else if (proofs[i].type == LOGUP_PROOF) {
+            for (const auto &layer : proofs[i].proofs) {
+                data.push_back(encode_lookup_proof(layer));
+                transcript.push_back(get_lookup_transcript(layer));
+            }
 		}
 	}
 
-	string filename = "proof_input";
-	char name[filename.length()+1];
-	strcpy(name, filename.c_str());
 	string circuit_filename = "proof_transcript";
 	char transcript_name[circuit_filename.length()+1];
 	strcpy(transcript_name, circuit_filename.c_str());
-	write_transcript(transcript,transcript_name);
+	write_transcript(transcript, transcript_name);
+
+	return {std::move(data), std::move(transcript)};
+}
+
+struct proof verify_proof(vector<proof> proofs){
+    x_transcript.clear();
+    y_transcript.clear();
+    current_randomness = F_ZERO;
+	VerifyBundle bundle = BuildVerificationBundle(proofs);
 
 	vector<F> gkr_data;
-	for(int i = 0; i < data.size(); i++){
-		for(int j = 0; j <data[i].size(); j++){
-			gkr_data.push_back(data[i][j]);
-		}
+	for (const auto &chunk : bundle.data) {
+		gkr_data.insert(gkr_data.end(), chunk.begin(), chunk.end());
 	}
 	gkr_data.push_back(F(1));
-	
-	circuit_filename = "verification_circuit.pws";
-	char circuit_name[circuit_filename.length()+1];
-	strcpy(circuit_name, circuit_filename.c_str());
+
 	vector<F> r(10);
-	for(int i = 0; i < 10; i++){
+	for (int i = 0; i < 10; i++) {
 		r[i] = random();//.setByCSPRNG();
 	}
-	return prove_verification(gkr_data,r,transcript);
+	return prove_verification(gkr_data, r, bundle.transcript);
 	//generate_GKR_proof(circuit_name,name,r,true);
 }
 

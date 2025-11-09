@@ -2,6 +2,8 @@
 #include "utils.hpp"
 #include "RNN.h"
 
+#include <iostream>
+
 const F SCALE = F(1ULL<<Q);
 
 static const F INV_SCALE = F(1)/SCALE;
@@ -51,8 +53,32 @@ softmax_layer _softmax_layer(vector<F> z){
     }
 
     sl.den = F_ZERO;
+    bool all_zero = true;
     for (int i = 0; i < n; i++){
         sl.den +=sl.exp_shift[i];
+        if (!sl.exp_shift[i].isZero()) {
+            all_zero = false;
+        }
+    }
+
+    if (all_zero) {
+        // For extremely small activations the fixed-point exp can round to zero.
+        // Align with KAIZEN by forcing a uniform distribution in this corner case.
+        for (int i = 0; i < n; ++i) {
+            sl.exp_shift[i] = SCALE;
+        }
+        sl.den = F(n) * SCALE;
+    } else if (sl.den.isZero()) {
+        std::cerr << "[softmax] zero denominator detected. z_shift: ";
+        for (int i = 0; i < n; ++i) {
+            std::cerr << dequantize(sl.z_shift[i], 1) << " ";
+        }
+        std::cerr << " exp_shift: ";
+        for (int i = 0; i < n; ++i) {
+            std::cerr << dequantize(sl.exp_shift[i], 1) << " ";
+        }
+        std::cerr << std::endl;
+        sl.den = SCALE; // fallback to avoid divide-by-zero
     }
 
     for (int i = 0; i < n; i++){

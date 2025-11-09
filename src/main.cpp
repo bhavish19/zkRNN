@@ -22,6 +22,13 @@
 #include "logup.hpp"
 #include "bench.hpp"
 #include "verifier.h"
+#include "proof_serialization.h"
+
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 
 #include<unistd.h>
 using namespace std;
@@ -1112,6 +1119,168 @@ void get_model_rnn(rnn_layer net, vector<F> &model) {
                  net.b2.end());
 }
 
+namespace {
+
+void CreateDirIfMissing(const std::string& dir) {
+    if (dir.empty()) return;
+#ifdef _WIN32
+    _mkdir(dir.c_str());
+#else
+    mkdir(dir.c_str(), 0755);
+#endif
+}
+
+void EnsureParentDir(const std::string& path) {
+    auto sep = path.find_last_of("/\\");
+    if (sep == std::string::npos) return;
+    std::string dir = path.substr(0, sep);
+    if (dir.empty()) return;
+
+    std::string prefix;
+    size_t pos = 0;
+
+#ifdef _WIN32
+    if (dir.size() >= 2 && dir[1] == ':') {
+        prefix = dir.substr(0, 2);
+        pos = 2;
+    }
+#endif
+
+    for (; pos < dir.size(); ++pos) {
+        char c = dir[pos];
+        prefix.push_back(c);
+        if (c == '/' || c == '\\') {
+            CreateDirIfMissing(prefix);
+        }
+    }
+
+    CreateDirIfMissing(dir);
+}
+
+std::string ResolveDumpPath() {
+    if (const char* custom = std::getenv("BENCH_DUMP")) {
+        if (custom[0] != '\0') return std::string(custom);
+    }
+    if (const char* bench_csv = std::getenv("BENCH_CSV")) {
+        std::string path(bench_csv);
+        const auto pos = path.find_last_of("/\\");
+        if (pos != std::string::npos) {
+            return path.substr(0, pos + 1) + "witness_dump.json";
+        }
+    }
+    return std::string("../bench/witness_dump.json");
+}
+
+void DumpFieldVector(std::ostream& out, const vector<F>& vec) {
+    out << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+        if (i) out << ", ";
+        out << "\"" << FieldElementToString(vec[i]) << "\"";
+    }
+    out << "]";
+}
+
+void DumpFieldMatrix(std::ostream& out, const vector<vector<F>>& matrix, int indent) {
+    out << "[\n";
+    for (size_t i = 0; i < matrix.size(); ++i) {
+        for (int j = 0; j < indent; ++j) out.put(' ');
+        DumpFieldVector(out, matrix[i]);
+        if (i + 1 != matrix.size()) out << ",";
+        out << "\n";
+    }
+    out << "]";
+}
+
+void DumpTrainingSnapshot(const rnn_layer& net,
+                          const vector<vector<F>>& inputs,
+                          const vector<F>& h0) {
+    static bool dumped = false;
+    if (dumped) return;
+
+    std::string path = ResolveDumpPath();
+    EnsureParentDir(path);
+
+    std::ofstream out(path, std::ios::out | std::ios::trunc);
+    if (!out) {
+        std::fprintf(stderr, "[dump] failed to open %s\n", path.c_str());
+        return;
+    }
+
+    dumped = true;
+    std::fprintf(stderr, "[dump] dumping snapshot to %s\n", path.c_str());
+    out << "{\n";
+    out << "  \"seq_len\": " << net.seq_len << ",\n";
+    out << "  \"input_size\": " << net.input_size << ",\n";
+    out << "  \"hidden_size\": " << net.hidden_size << ",\n";
+    out << "  \"output_size\": " << net.output_size << ",\n";
+
+    out << "  \"input_t0\": ";
+    if (!inputs.empty()) {
+        DumpFieldVector(out, inputs.front());
+    } else {
+        out << "[]";
+    }
+    out << ",\n";
+
+    out << "  \"h_prev_t0\": ";
+    DumpFieldVector(out, h0);
+    out << ",\n";
+
+    auto dump_optional_vector = [&](const char* label, const vector<vector<F>>& container) {
+        out << "  \"" << label << "\": ";
+        if (!container.empty()) {
+            DumpFieldVector(out, container.front());
+        } else {
+            out << "[]";
+        }
+        out << ",\n";
+    };
+
+    dump_optional_vector("a_t0", net.fwd.a);
+    dump_optional_vector("h_t0", net.fwd.h);
+    dump_optional_vector("z_t0", net.fwd.z);
+    dump_optional_vector("y_hat_t0", net.fwd.yHat);
+
+    out << "  \"exp_tanh\": {\n";
+    out << "    \"Xq\": ";
+    DumpFieldVector(out, net.fwd.exp_tanh.Xq);
+    out << ",\n";
+    out << "    \"Yq\": ";
+    DumpFieldVector(out, net.fwd.exp_tanh.Yq);
+    out << "\n  },\n";
+
+    out << "  \"exp_softmax\": {\n";
+    out << "    \"Xq\": ";
+    DumpFieldVector(out, net.fwd.exp_softmax.Xq);
+    out << ",\n";
+    out << "    \"Yq\": ";
+    DumpFieldVector(out, net.fwd.exp_softmax.Yq);
+    out << "\n  },\n";
+
+    out << "  \"weights\": {\n";
+    out << "    \"W_x\": ";
+    DumpFieldMatrix(out, net.W_x, 6);
+    out << ",\n";
+    out << "    \"W_h\": ";
+    DumpFieldMatrix(out, net.W_h, 6);
+    out << ",\n";
+    out << "    \"W_y\": ";
+    DumpFieldMatrix(out, net.W_y, 6);
+    out << ",\n";
+    out << "    \"b1\": ";
+    DumpFieldVector(out, net.b1);
+    out << ",\n";
+    out << "    \"b2\": ";
+    DumpFieldVector(out, net.b2);
+    out << "\n  }\n";
+
+    out << "}\n";
+    out.close();
+    std::fprintf(stderr, "[dump] wrote snapshot to %s\n", path.c_str());
+}
+
+} // namespace
+
 vector<F> rotate(vector<F> bits, int shift){
 	vector<F> new_bits;
  	for(int i = shift; i < bits.size(); i++){
@@ -1677,6 +1846,7 @@ int main(int argc, char *argv[]){
 			printf("Iteration : %d\n", i*arity + j);
 
 			rnn_net = rnn_forward(rnn_net,X_rnn,h0);
+            DumpTrainingSnapshot(rnn_net, X_rnn, h0);
 			rnn_net = rnn_bptt(rnn_net, y_true);
 			rnn_net = rnn_update(rnn_net, lr);
 

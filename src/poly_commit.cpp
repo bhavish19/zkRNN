@@ -4,6 +4,9 @@
 #include <math.h>
 #include "poly_commit.h"
 #include "mimc.h"
+#ifdef DEBUG_LOGUP
+#include <iostream>
+#endif
 
 extern int PC_scheme,Commitment_hash;
 
@@ -244,12 +247,23 @@ void my_fft(vector<F> &arr, int logn, bool flag) {
 
 
 void commit_matrix(vector<vector<F>> &encoded_matrix,int bit_row,int bit_col, commitment &com, int level, CommitSrc src){
-    vector<vector<__hhash_digest>> buff;//(poly.size());
-    vector<vector<F>> _buff;
-    vector<F> aux(4);
-    
-    
-    int poly_size = encoded_matrix.size()*encoded_matrix[0].size()/4;
+	vector<vector<__hhash_digest>> buff;//(poly.size());
+	vector<vector<F>> _buff;
+	vector<F> aux(4);
+#ifdef DEBUG_LOGUP
+	std::cerr << "[poly_commit] commit_matrix level=" << level
+	          << " bit_row=" << bit_row
+	          << " bit_col=" << bit_col
+	          << " rows=" << encoded_matrix.size()
+	          << " row0_size=" << (encoded_matrix.empty() ? 0 : encoded_matrix[0].size())
+	          << std::endl;
+#endif
+	
+	
+	int poly_size = encoded_matrix.size()*encoded_matrix[0].size()/4;
+#ifdef DEBUG_LOGUP
+	std::cerr << "[poly_commit] poly_size=" << poly_size << std::endl;
+#endif
     if(Commitment_hash == SHA){
         buff.resize((int)log2(poly_size)+1);
         buff[0].resize(poly_size);
@@ -260,6 +274,10 @@ void commit_matrix(vector<vector<F>> &encoded_matrix,int bit_row,int bit_col, co
         if(level == -1){
             _buff.resize((int)log2(poly_size*2) + 1);
             _buff[0].resize(2*poly_size);
+#ifdef DEBUG_LOGUP
+			std::cerr << "[poly_commit] level -1 sizes: _buff[0]=" << _buff[0].size()
+			          << " poly_size=" << poly_size << std::endl;
+#endif
             //printf("%d\n",2*poly_size);
             for(int i = 1; i < (int)log2(poly_size) + 2; i++){
                 _buff[i].resize((poly_size*2)/(1ULL<<(i)));
@@ -273,6 +291,13 @@ void commit_matrix(vector<vector<F>> &encoded_matrix,int bit_row,int bit_col, co
                 buff[i].resize(poly_size/(1ULL<<(i)));
             }
             _buff[0].resize(poly_size/(1ULL << (i)));
+#ifdef DEBUG_LOGUP
+			std::cerr << "[poly_commit] level>0 buffers: "
+			          << "buff[0]=" << buff[0].size()
+			          << " buff[1]=" << (buff.size() > 1 ? buff[1].size() : 0)
+			          << " _buff[0]=" << (_buff.empty() ? 0 : _buff[0].size())
+			          << std::endl;
+#endif
             
             for(i = 1; i < _buff.size(); i++){
                 _buff[i].resize(_buff[0].size()/(1ULL<<(i)));
@@ -297,14 +322,22 @@ void commit_matrix(vector<vector<F>> &encoded_matrix,int bit_row,int bit_col, co
                 }
             }    
         }else{
-            for(int i = 0; i < 1ULL<<(bit_row+1); i++){
-                for(int j = 0; j < (1ULL<<(bit_col))/2; j++){
-                    
-                    memset(&buff[0][i*(1ULL<<(bit_col))/2 + j], 0, sizeof(__hhash_digest));
-                    buff[0][i*(1ULL<<(bit_col))/2 + j] = merkle_tree::hash_double_field_element_merkle_damgard(encoded_matrix[i][4*j], encoded_matrix[i][4*j+1],encoded_matrix[i][4*j+2],encoded_matrix[i][4*j+3], buff[0][i*(1ULL<<(bit_col))/2 + j]);
-                
-                }
-            }
+			for(int i = 0; i < 1ULL<<(bit_row+1); i++){
+				for(int j = 0; j < (1ULL<<(bit_col))/2; j++){
+#ifdef DEBUG_LOGUP
+					std::size_t needed = 4ULL * ((1ULL << bit_col) / 2ULL);
+					if (encoded_matrix[i].size() < needed) {
+						std::cerr << "[poly_commit] warning: encoded_matrix[" << i
+						          << "] size=" << encoded_matrix[i].size()
+						          << " expected >= " << needed << std::endl;
+					}
+#endif
+					
+					memset(&buff[0][i*(1ULL<<(bit_col))/2 + j], 0, sizeof(__hhash_digest));
+					buff[0][i*(1ULL<<(bit_col))/2 + j] = merkle_tree::hash_double_field_element_merkle_damgard(encoded_matrix[i][4*j], encoded_matrix[i][4*j+1],encoded_matrix[i][4*j+2],encoded_matrix[i][4*j+3], buff[0][i*(1ULL<<(bit_col))/2 + j]);
+				
+				}
+			}
             merkle_tree::merkle_tree_prover::create_tree_sha( buff[0].size() , buff,level, sizeof(__hhash_digest), true);
             // initialize _buff[0]
             vector<unsigned int> arr1(8),arr2(8);
@@ -336,6 +369,10 @@ void poly_commit(vector<F> poly, vector<vector<F>> &matrix, commitment &comm, in
     int bit_row,bit_col;
     vector<F> arr;
     vector<vector<F>> temp_matrix,encoded_matrix;
+#ifdef DEBUG_LOGUP
+	std::cerr << "[poly_commit] start vec_size=" << poly.size()
+	          << " level=" << level << std::endl;
+#endif
     if(1ULL << bit_size != poly.size()){
         exit(-1);
         bit_size++;

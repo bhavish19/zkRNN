@@ -1,5 +1,8 @@
 #pragma once
+#include <unordered_map>
+#include <mutex>
 #include "RNN.h"
+#include "poly_commit.h"
 #include <time.h>
 
 extern double logup_acc_commit_time;

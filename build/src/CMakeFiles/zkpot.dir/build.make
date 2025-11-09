@@ -97,10 +97,80 @@ src/CMakeFiles/zkpot.dir/RNN.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/RNN.cpp.s"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/RNN.cpp" -o CMakeFiles/zkpot.dir/RNN.cpp.s
 
+src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o: ../src/activation_circuit_loader.cpp
+src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o -MF CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o.d -o CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_circuit_loader.cpp"
+
+src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_circuit_loader.cpp" > CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.i
+
+src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_circuit_loader.cpp" -o CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.s
+
+src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o: ../src/activation_gkr.cpp
+src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o -MF CMakeFiles/zkpot.dir/activation_gkr.cpp.o.d -o CMakeFiles/zkpot.dir/activation_gkr.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_gkr.cpp"
+
+src/CMakeFiles/zkpot.dir/activation_gkr.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/activation_gkr.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_gkr.cpp" > CMakeFiles/zkpot.dir/activation_gkr.cpp.i
+
+src/CMakeFiles/zkpot.dir/activation_gkr.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/activation_gkr.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_gkr.cpp" -o CMakeFiles/zkpot.dir/activation_gkr.cpp.s
+
+src/CMakeFiles/zkpot.dir/activation_witness.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/activation_witness.cpp.o: ../src/activation_witness.cpp
+src/CMakeFiles/zkpot.dir/activation_witness.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/zkpot.dir/activation_witness.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/activation_witness.cpp.o -MF CMakeFiles/zkpot.dir/activation_witness.cpp.o.d -o CMakeFiles/zkpot.dir/activation_witness.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_witness.cpp"
+
+src/CMakeFiles/zkpot.dir/activation_witness.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/activation_witness.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_witness.cpp" > CMakeFiles/zkpot.dir/activation_witness.cpp.i
+
+src/CMakeFiles/zkpot.dir/activation_witness.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/activation_witness.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/activation_witness.cpp" -o CMakeFiles/zkpot.dir/activation_witness.cpp.s
+
+src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o: ../src/aux_sumcheck.cpp
+src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o -MF CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o.d -o CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_sumcheck.cpp"
+
+src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/aux_sumcheck.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_sumcheck.cpp" > CMakeFiles/zkpot.dir/aux_sumcheck.cpp.i
+
+src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/aux_sumcheck.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_sumcheck.cpp" -o CMakeFiles/zkpot.dir/aux_sumcheck.cpp.s
+
+src/CMakeFiles/zkpot.dir/aux_witness.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/aux_witness.cpp.o: ../src/aux_witness.cpp
+src/CMakeFiles/zkpot.dir/aux_witness.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/zkpot.dir/aux_witness.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/aux_witness.cpp.o -MF CMakeFiles/zkpot.dir/aux_witness.cpp.o.d -o CMakeFiles/zkpot.dir/aux_witness.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_witness.cpp"
+
+src/CMakeFiles/zkpot.dir/aux_witness.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/aux_witness.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_witness.cpp" > CMakeFiles/zkpot.dir/aux_witness.cpp.i
+
+src/CMakeFiles/zkpot.dir/aux_witness.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/aux_witness.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/aux_witness.cpp" -o CMakeFiles/zkpot.dir/aux_witness.cpp.s
+
 src/CMakeFiles/zkpot.dir/circuit.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/circuit.cpp.o: ../src/circuit.cpp
 src/CMakeFiles/zkpot.dir/circuit.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/zkpot.dir/circuit.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/zkpot.dir/circuit.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/circuit.cpp.o -MF CMakeFiles/zkpot.dir/circuit.cpp.o.d -o CMakeFiles/zkpot.dir/circuit.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/circuit.cpp"
 
 src/CMakeFiles/zkpot.dir/circuit.cpp.i: cmake_force
@@ -114,7 +184,7 @@ src/CMakeFiles/zkpot.dir/circuit.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/expander.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/expander.cpp.o: ../src/expander.cpp
 src/CMakeFiles/zkpot.dir/expander.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/zkpot.dir/expander.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/zkpot.dir/expander.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/expander.cpp.o -MF CMakeFiles/zkpot.dir/expander.cpp.o.d -o CMakeFiles/zkpot.dir/expander.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/expander.cpp"
 
 src/CMakeFiles/zkpot.dir/expander.cpp.i: cmake_force
@@ -128,7 +198,7 @@ src/CMakeFiles/zkpot.dir/expander.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/fieldElement.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/fieldElement.cpp.o: ../src/fieldElement.cpp
 src/CMakeFiles/zkpot.dir/fieldElement.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/zkpot.dir/fieldElement.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/zkpot.dir/fieldElement.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/fieldElement.cpp.o -MF CMakeFiles/zkpot.dir/fieldElement.cpp.o.d -o CMakeFiles/zkpot.dir/fieldElement.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/fieldElement.cpp"
 
 src/CMakeFiles/zkpot.dir/fieldElement.cpp.i: cmake_force
@@ -139,24 +209,38 @@ src/CMakeFiles/zkpot.dir/fieldElement.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/fieldElement.cpp.s"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/fieldElement.cpp" -o CMakeFiles/zkpot.dir/fieldElement.cpp.s
 
-src/CMakeFiles/zkpot.dir/flo-shani.c.o: src/CMakeFiles/zkpot.dir/flags.make
-src/CMakeFiles/zkpot.dir/flo-shani.c.o: ../src/flo-shani.c
-src/CMakeFiles/zkpot.dir/flo-shani.c.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building C object src/CMakeFiles/zkpot.dir/flo-shani.c.o"
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/flo-shani.c.o -MF CMakeFiles/zkpot.dir/flo-shani.c.o.d -o CMakeFiles/zkpot.dir/flo-shani.c.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/flo-shani.c"
+src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o: ../src/finalise_proof.cpp
+src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o -MF CMakeFiles/zkpot.dir/finalise_proof.cpp.o.d -o CMakeFiles/zkpot.dir/finalise_proof.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/finalise_proof.cpp"
 
-src/CMakeFiles/zkpot.dir/flo-shani.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/zkpot.dir/flo-shani.c.i"
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/flo-shani.c" > CMakeFiles/zkpot.dir/flo-shani.c.i
+src/CMakeFiles/zkpot.dir/finalise_proof.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/finalise_proof.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/finalise_proof.cpp" > CMakeFiles/zkpot.dir/finalise_proof.cpp.i
 
-src/CMakeFiles/zkpot.dir/flo-shani.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/zkpot.dir/flo-shani.c.s"
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/flo-shani.c" -o CMakeFiles/zkpot.dir/flo-shani.c.s
+src/CMakeFiles/zkpot.dir/finalise_proof.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/finalise_proof.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/finalise_proof.cpp" -o CMakeFiles/zkpot.dir/finalise_proof.cpp.s
+
+src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o: ../src/ivc_adapter.cpp
+src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o -MF CMakeFiles/zkpot.dir/ivc_adapter.cpp.o.d -o CMakeFiles/zkpot.dir/ivc_adapter.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/ivc_adapter.cpp"
+
+src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/ivc_adapter.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/ivc_adapter.cpp" > CMakeFiles/zkpot.dir/ivc_adapter.cpp.i
+
+src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/ivc_adapter.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/ivc_adapter.cpp" -o CMakeFiles/zkpot.dir/ivc_adapter.cpp.s
 
 src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o: ../src/linear_code_encode.cpp
 src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o -MF CMakeFiles/zkpot.dir/linear_code_encode.cpp.o.d -o CMakeFiles/zkpot.dir/linear_code_encode.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/linear_code_encode.cpp"
 
 src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.i: cmake_force
@@ -170,7 +254,7 @@ src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/logup.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/logup.cpp.o: ../src/logup.cpp
 src/CMakeFiles/zkpot.dir/logup.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/zkpot.dir/logup.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/zkpot.dir/logup.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/logup.cpp.o -MF CMakeFiles/zkpot.dir/logup.cpp.o.d -o CMakeFiles/zkpot.dir/logup.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/logup.cpp"
 
 src/CMakeFiles/zkpot.dir/logup.cpp.i: cmake_force
@@ -184,7 +268,7 @@ src/CMakeFiles/zkpot.dir/logup.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/main.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/main.cpp.o: ../src/main.cpp
 src/CMakeFiles/zkpot.dir/main.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/zkpot.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/zkpot.dir/main.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/main.cpp.o -MF CMakeFiles/zkpot.dir/main.cpp.o.d -o CMakeFiles/zkpot.dir/main.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/main.cpp"
 
 src/CMakeFiles/zkpot.dir/main.cpp.i: cmake_force
@@ -198,7 +282,7 @@ src/CMakeFiles/zkpot.dir/main.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o: ../src/merkle_tree.cpp
 src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o -MF CMakeFiles/zkpot.dir/merkle_tree.cpp.o.d -o CMakeFiles/zkpot.dir/merkle_tree.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/merkle_tree.cpp"
 
 src/CMakeFiles/zkpot.dir/merkle_tree.cpp.i: cmake_force
@@ -212,7 +296,7 @@ src/CMakeFiles/zkpot.dir/merkle_tree.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/mimc.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/mimc.cpp.o: ../src/mimc.cpp
 src/CMakeFiles/zkpot.dir/mimc.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/zkpot.dir/mimc.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/zkpot.dir/mimc.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/mimc.cpp.o -MF CMakeFiles/zkpot.dir/mimc.cpp.o.d -o CMakeFiles/zkpot.dir/mimc.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/mimc.cpp"
 
 src/CMakeFiles/zkpot.dir/mimc.cpp.i: cmake_force
@@ -226,7 +310,7 @@ src/CMakeFiles/zkpot.dir/mimc.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o: ../src/pol_verifier.cpp
 src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o -MF CMakeFiles/zkpot.dir/pol_verifier.cpp.o.d -o CMakeFiles/zkpot.dir/pol_verifier.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/pol_verifier.cpp"
 
 src/CMakeFiles/zkpot.dir/pol_verifier.cpp.i: cmake_force
@@ -240,7 +324,7 @@ src/CMakeFiles/zkpot.dir/pol_verifier.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/poly_commit.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/poly_commit.cpp.o: ../src/poly_commit.cpp
 src/CMakeFiles/zkpot.dir/poly_commit.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/zkpot.dir/poly_commit.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/zkpot.dir/poly_commit.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/poly_commit.cpp.o -MF CMakeFiles/zkpot.dir/poly_commit.cpp.o.d -o CMakeFiles/zkpot.dir/poly_commit.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/poly_commit.cpp"
 
 src/CMakeFiles/zkpot.dir/poly_commit.cpp.i: cmake_force
@@ -254,7 +338,7 @@ src/CMakeFiles/zkpot.dir/poly_commit.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/polynomial.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/polynomial.cpp.o: ../src/polynomial.cpp
 src/CMakeFiles/zkpot.dir/polynomial.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/zkpot.dir/polynomial.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/zkpot.dir/polynomial.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/polynomial.cpp.o -MF CMakeFiles/zkpot.dir/polynomial.cpp.o.d -o CMakeFiles/zkpot.dir/polynomial.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/polynomial.cpp"
 
 src/CMakeFiles/zkpot.dir/polynomial.cpp.i: cmake_force
@@ -265,10 +349,38 @@ src/CMakeFiles/zkpot.dir/polynomial.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/polynomial.cpp.s"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/polynomial.cpp" -o CMakeFiles/zkpot.dir/polynomial.cpp.s
 
+src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o: ../src/proof_serialization.cpp
+src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o -MF CMakeFiles/zkpot.dir/proof_serialization.cpp.o.d -o CMakeFiles/zkpot.dir/proof_serialization.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/proof_serialization.cpp"
+
+src/CMakeFiles/zkpot.dir/proof_serialization.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/proof_serialization.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/proof_serialization.cpp" > CMakeFiles/zkpot.dir/proof_serialization.cpp.i
+
+src/CMakeFiles/zkpot.dir/proof_serialization.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/proof_serialization.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/proof_serialization.cpp" -o CMakeFiles/zkpot.dir/proof_serialization.cpp.s
+
+src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o: ../src/prove_leaf.cpp
+src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o -MF CMakeFiles/zkpot.dir/prove_leaf.cpp.o.d -o CMakeFiles/zkpot.dir/prove_leaf.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/prove_leaf.cpp"
+
+src/CMakeFiles/zkpot.dir/prove_leaf.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/prove_leaf.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/prove_leaf.cpp" > CMakeFiles/zkpot.dir/prove_leaf.cpp.i
+
+src/CMakeFiles/zkpot.dir/prove_leaf.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/prove_leaf.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/prove_leaf.cpp" -o CMakeFiles/zkpot.dir/prove_leaf.cpp.s
+
 src/CMakeFiles/zkpot.dir/prover.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/prover.cpp.o: ../src/prover.cpp
 src/CMakeFiles/zkpot.dir/prover.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/zkpot.dir/prover.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/CMakeFiles/zkpot.dir/prover.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/prover.cpp.o -MF CMakeFiles/zkpot.dir/prover.cpp.o.d -o CMakeFiles/zkpot.dir/prover.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/prover.cpp"
 
 src/CMakeFiles/zkpot.dir/prover.cpp.i: cmake_force
@@ -282,7 +394,7 @@ src/CMakeFiles/zkpot.dir/prover.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/quantization.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/quantization.cpp.o: ../src/quantization.cpp
 src/CMakeFiles/zkpot.dir/quantization.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/zkpot.dir/quantization.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/CMakeFiles/zkpot.dir/quantization.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/quantization.cpp.o -MF CMakeFiles/zkpot.dir/quantization.cpp.o.d -o CMakeFiles/zkpot.dir/quantization.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/quantization.cpp"
 
 src/CMakeFiles/zkpot.dir/quantization.cpp.i: cmake_force
@@ -293,10 +405,38 @@ src/CMakeFiles/zkpot.dir/quantization.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/quantization.cpp.s"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/quantization.cpp" -o CMakeFiles/zkpot.dir/quantization.cpp.s
 
+src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o: ../src/stream_orchestrator.cpp
+src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o -MF CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o.d -o CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/stream_orchestrator.cpp"
+
+src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/stream_orchestrator.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/stream_orchestrator.cpp" > CMakeFiles/zkpot.dir/stream_orchestrator.cpp.i
+
+src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/stream_orchestrator.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/stream_orchestrator.cpp" -o CMakeFiles/zkpot.dir/stream_orchestrator.cpp.s
+
+src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o: ../src/sum_matmul_wrapper.cpp
+src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o -MF CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o.d -o CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/sum_matmul_wrapper.cpp"
+
+src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/sum_matmul_wrapper.cpp" > CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.i
+
+src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/sum_matmul_wrapper.cpp" -o CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.s
+
 src/CMakeFiles/zkpot.dir/timer.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/timer.cpp.o: ../src/timer.cpp
 src/CMakeFiles/zkpot.dir/timer.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/zkpot.dir/timer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object src/CMakeFiles/zkpot.dir/timer.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/timer.cpp.o -MF CMakeFiles/zkpot.dir/timer.cpp.o.d -o CMakeFiles/zkpot.dir/timer.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/timer.cpp"
 
 src/CMakeFiles/zkpot.dir/timer.cpp.i: cmake_force
@@ -310,7 +450,7 @@ src/CMakeFiles/zkpot.dir/timer.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/utils.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/utils.cpp.o: ../src/utils.cpp
 src/CMakeFiles/zkpot.dir/utils.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/zkpot.dir/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object src/CMakeFiles/zkpot.dir/utils.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/utils.cpp.o -MF CMakeFiles/zkpot.dir/utils.cpp.o.d -o CMakeFiles/zkpot.dir/utils.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/utils.cpp"
 
 src/CMakeFiles/zkpot.dir/utils.cpp.i: cmake_force
@@ -324,7 +464,7 @@ src/CMakeFiles/zkpot.dir/utils.cpp.s: cmake_force
 src/CMakeFiles/zkpot.dir/verifier.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
 src/CMakeFiles/zkpot.dir/verifier.cpp.o: ../src/verifier.cpp
 src/CMakeFiles/zkpot.dir/verifier.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/zkpot.dir/verifier.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object src/CMakeFiles/zkpot.dir/verifier.cpp.o"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/verifier.cpp.o -MF CMakeFiles/zkpot.dir/verifier.cpp.o.d -o CMakeFiles/zkpot.dir/verifier.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/verifier.cpp"
 
 src/CMakeFiles/zkpot.dir/verifier.cpp.i: cmake_force
@@ -335,14 +475,48 @@ src/CMakeFiles/zkpot.dir/verifier.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/verifier.cpp.s"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/verifier.cpp" -o CMakeFiles/zkpot.dir/verifier.cpp.s
 
+src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o: ../src/verifier_stub.cpp
+src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o -MF CMakeFiles/zkpot.dir/verifier_stub.cpp.o.d -o CMakeFiles/zkpot.dir/verifier_stub.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/verifier_stub.cpp"
+
+src/CMakeFiles/zkpot.dir/verifier_stub.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/verifier_stub.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/verifier_stub.cpp" > CMakeFiles/zkpot.dir/verifier_stub.cpp.i
+
+src/CMakeFiles/zkpot.dir/verifier_stub.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/verifier_stub.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/verifier_stub.cpp" -o CMakeFiles/zkpot.dir/verifier_stub.cpp.s
+
+src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o: src/CMakeFiles/zkpot.dir/flags.make
+src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o: ../src/witness_snapshot.cpp
+src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o: src/CMakeFiles/zkpot.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o -MF CMakeFiles/zkpot.dir/witness_snapshot.cpp.o.d -o CMakeFiles/zkpot.dir/witness_snapshot.cpp.o -c "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/witness_snapshot.cpp"
+
+src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/zkpot.dir/witness_snapshot.cpp.i"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/witness_snapshot.cpp" > CMakeFiles/zkpot.dir/witness_snapshot.cpp.i
+
+src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/zkpot.dir/witness_snapshot.cpp.s"
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/witness_snapshot.cpp" -o CMakeFiles/zkpot.dir/witness_snapshot.cpp.s
+
 # Object files for target zkpot
 zkpot_OBJECTS = \
 "CMakeFiles/zkpot.dir/GKR.cpp.o" \
 "CMakeFiles/zkpot.dir/RNN.cpp.o" \
+"CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o" \
+"CMakeFiles/zkpot.dir/activation_gkr.cpp.o" \
+"CMakeFiles/zkpot.dir/activation_witness.cpp.o" \
+"CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o" \
+"CMakeFiles/zkpot.dir/aux_witness.cpp.o" \
 "CMakeFiles/zkpot.dir/circuit.cpp.o" \
 "CMakeFiles/zkpot.dir/expander.cpp.o" \
 "CMakeFiles/zkpot.dir/fieldElement.cpp.o" \
-"CMakeFiles/zkpot.dir/flo-shani.c.o" \
+"CMakeFiles/zkpot.dir/finalise_proof.cpp.o" \
+"CMakeFiles/zkpot.dir/ivc_adapter.cpp.o" \
 "CMakeFiles/zkpot.dir/linear_code_encode.cpp.o" \
 "CMakeFiles/zkpot.dir/logup.cpp.o" \
 "CMakeFiles/zkpot.dir/main.cpp.o" \
@@ -351,21 +525,33 @@ zkpot_OBJECTS = \
 "CMakeFiles/zkpot.dir/pol_verifier.cpp.o" \
 "CMakeFiles/zkpot.dir/poly_commit.cpp.o" \
 "CMakeFiles/zkpot.dir/polynomial.cpp.o" \
+"CMakeFiles/zkpot.dir/proof_serialization.cpp.o" \
+"CMakeFiles/zkpot.dir/prove_leaf.cpp.o" \
 "CMakeFiles/zkpot.dir/prover.cpp.o" \
 "CMakeFiles/zkpot.dir/quantization.cpp.o" \
+"CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o" \
+"CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o" \
 "CMakeFiles/zkpot.dir/timer.cpp.o" \
 "CMakeFiles/zkpot.dir/utils.cpp.o" \
-"CMakeFiles/zkpot.dir/verifier.cpp.o"
+"CMakeFiles/zkpot.dir/verifier.cpp.o" \
+"CMakeFiles/zkpot.dir/verifier_stub.cpp.o" \
+"CMakeFiles/zkpot.dir/witness_snapshot.cpp.o"
 
 # External object files for target zkpot
 zkpot_EXTERNAL_OBJECTS =
 
 src/zkpot: src/CMakeFiles/zkpot.dir/GKR.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/RNN.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/activation_witness.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/aux_witness.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/circuit.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/expander.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/fieldElement.cpp.o
-src/zkpot: src/CMakeFiles/zkpot.dir/flo-shani.c.o
+src/zkpot: src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/linear_code_encode.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/logup.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/main.cpp.o
@@ -374,17 +560,24 @@ src/zkpot: src/CMakeFiles/zkpot.dir/mimc.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/pol_verifier.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/poly_commit.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/polynomial.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/prover.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/quantization.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/timer.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/utils.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/verifier.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o
+src/zkpot: src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o
 src/zkpot: src/CMakeFiles/zkpot.dir/build.make
+src/zkpot: ../lib/libXKCP.a
 src/zkpot: /usr/lib/x86_64-linux-gnu/libgmp.so
 src/zkpot: /usr/lib/gcc/x86_64-linux-gnu/11/libgomp.so
 src/zkpot: /usr/lib/x86_64-linux-gnu/libpthread.a
 src/zkpot: src/CMakeFiles/zkpot.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable zkpot"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_32) "Linking CXX executable zkpot"
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build/src" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/zkpot.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
