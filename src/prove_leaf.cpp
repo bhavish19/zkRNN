@@ -222,13 +222,6 @@ LeafResult ProveLeaf(const ProveParams &p,
   result.logup_proofs.push_back(tanh_proofs.logup);
   result.logup_proofs.push_back(softmax_proofs.logup);
 
-  if (!result.transcript.empty()) {
-    result.step_proof = result.transcript.front();
-  }
-  result.commitments = { "W_COMMIT", "H_COMMIT" }; // Placeholder
-  result.evals.push_back(std::make_tuple("SIG", "R", "V")); // Placeholder
-  result.accumulator_out = "ACC_PLACEHOLDER"; // Placeholder
-
   std::cout << "[ProveLeaf] Built transcript with " << result.transcript.size()
             << " arithmetic proofs and " << result.logup_proofs.size()
             << " logup proofs (Q=" << num_bits << ")\n";

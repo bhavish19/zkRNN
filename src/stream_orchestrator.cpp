@@ -7,14 +7,6 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace {
-
-F QuantizedWeight() {
-  return quantize(0.01f);
-}
-
-} // namespace
-
 void StreamOrchestrator::EnsureWeightsInitialized(int input_dim,
                                                   int hidden_dim,
                                                   int output_dim) {

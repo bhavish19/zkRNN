@@ -166,6 +166,6 @@ AggregationResult FA_Aggregate(const std::vector<LeafResult>& children,
     std::cerr << "[FA_Aggregate] Unknown error generating accumulator\n";
   }
 
-  std::cerr << "[FA_Aggregate] Falling back to previous accumulator" << std::endl;
+  std::cerr << "[FA_Aggregate] Falling back to previous accumulator without update" << std::endl;
   return result;
 }
