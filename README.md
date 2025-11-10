@@ -1,0 +1,155 @@
+# zkRNN · Zero-Knowledge Proofs for Recurrent Networks
+
+[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](#)&nbsp;[![Docs](https://img.shields.io/badge/docs-system--documentation-blue.svg)](SYSTEM_DOCUMENTATION.md)
+
+zkRNN generates zero-knowledge proofs that a quantised recurrent neural network executed a forward pass (and, optionally, training iterations) correctly. This README walks through the essentials for inference proofs.
+
+---
+
+## Table of Contents
+- [Quickstart](#quickstart)
+- [Inference Proof](#inference-proof)
+- [Supplying Models and Inputs](#supplying-models-and-inputs)
+- [Interpreting Output](#interpreting-output)
+- [Helper Scripts](#helper-scripts)
+- [Testing](#testing)
+- [Further Reading](#further-reading)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Quickstart
+
+```bash
+chmod +x build.sh
+./build.sh
+```
+
+The script configures CMake, builds the prover binary (`build/src/zkpot`), and compiles all tests under `build/tests/`.
+
+---
+
+## Inference Proof
+
+### Option A · Convenience script
+
+```bash
+./rnn_infer_Nova.sh <T> <input_dim> <hidden_dim> <output_dim> [model_path] [input_path]
+```
+
+- `model_path` *(optional)* — path to a quantised model file. Random weights are used when omitted.
+- `input_path` *(optional)* — path to quantised inputs. Random inputs are used when omitted.
+
+### Option B · Direct binary invocation
+
+```bash
+./build/src/zkpot T n m k pc_type arity --mode=infer \
+  [--model=path/to/model.txt] \
+  [--inputs=path/to/inputs.txt] \
+  [--snapshot=path/to/snapshot.json]
+```
+
+| Argument | Meaning |
+|----------|---------|
+| `T` | Sequence length |
+| `n`, `m`, `k` | Input, hidden, and output dimensions |
+| `pc_type` | Polynomial commitment scheme (`1` = Orion, `2` = Virgo) |
+| `arity` | Aggregation fan-out (use `10` for single-level inference) |
+
+`--snapshot` overrides dimensions/weights with data captured during an earlier run.
+
+---
+
+## Supplying Models and Inputs
+
+<details>
+<summary>Model file layout</summary>
+
+The loader expects `n*m + m*m + k*m + m + k` floating-point scalars in this order:
+
+1. `W_x` – `m` rows × `n` columns (row-major)  
+2. `W_h` – `m` × `m`  
+3. `W_y` – `k` × `m`  
+4. `b1` – `m` entries  
+5. `b2` – `k` entries  
+
+Each value is quantised internally; plain decimal floats are fine.
+</details>
+
+<details>
+<summary>Input sequence layout</summary>
+
+Provide exactly `T * n` scalars, time-major (timestep `0`, then `1`, …; within each timestep list the `n` features).
+</details>
+
+If you only need a reproducible forward pass, supplying `--model` and `--inputs` is sufficient; `--snapshot` is useful when replaying previously captured witness data.
+
+---
+
+## Interpreting Output
+
+During inference you will see concise phase logs, e.g.:
+
+```
+[Inference] Starting forward pass (T=512, n=256, m=512, k=256)
+[Inference] Witness commitment produced (rows=...)
+[ProveRNN] Forward proof start (T=512, m=512, k=256)
+[ProveRNN]   Softmax lookup commitments
+[ProveRNN]   Matrix proof for W_y * h_t
+...
+Inference proof size: 7.500000
+Inference prover time: 3.984866
+Commitment time: 30.105292
+```
+
+Proof statistics (size, prover/verifier time, commitment cost, peak memory) are appended to `build/src/bench_results_infer.csv` after every run.
+
+---
+
+## Helper Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `rnn_infer_Nova.sh` | Wrapper around `zkpot --mode=infer` |
+| `rnn_test_self.sh` | Smoke test using random model and inputs |
+| `rnn_test_Nova.sh` | Sample training + aggregation loop |
+
+Internally they all call:
+
+```bash
+./build/src/zkpot <time_step> <input_size> <hidden_size> <output_size> <pc_type> <arity> [...]
+```
+
+---
+
+## Testing
+
+Run the full suite:
+
+```bash
+./tests/run_all_tests.sh
+```
+
+Individual binaries live in `build/tests/`. See `tests/TESTING_GUIDE.md` for a phased rundown (aux gadgets → activations → aggregation → orchestrator).
+
+---
+
+## Further Reading
+
+- [`SYSTEM_DOCUMENTATION.md`](SYSTEM_DOCUMENTATION.md) — architecture, pipeline, and extension notes.
+- [`IMPLEMENTATION_ANALYSIS.md`](IMPLEMENTATION_ANALYSIS.md) — historical design commentary.
+- [`tests/TESTING_GUIDE.md`](tests/TESTING_GUIDE.md) — how to exercise every component.
+
+---
+
+## Contributing
+
+Pull requests are welcome! Please open an issue for major changes so we can discuss the approach. Coding standards and recommendations will live in a future `CONTRIBUTING.md`.
+
+---
+
+## License
+
+License information to be confirmed. If you plan to redistribute, please clarify terms with the repository owner.
+
