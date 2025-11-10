@@ -1,0 +1,11 @@
+# Build artefacts
+build/
+
+# Generated benchmarks and transcripts
+bench_results*.csv
+proof_transcript
+
+# Editor or OS junk (optional guardrails)
+.DS_Store
+Thumbs.db
+
