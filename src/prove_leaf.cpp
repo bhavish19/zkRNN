@@ -21,16 +21,10 @@ LeafResult ProveLeaf(const ProveParams &p,
                      const TimeStepInput &in,
                      const RNNWeights &weights,
                      const TimeStepOutput &out) {
-  cout << "[ProveLeaf] Entered function\n";
-  cout.flush();
-  
   // Verify dimensions
   int m = weights.W_h.size();  // hidden size
   int n = in.x_t.size();       // input size
   int k = weights.W_y.size();  // output size
-  
-  cout << "[ProveLeaf] Dimensions: m=" << m << ", n=" << n << ", k=" << k << "\n";
-  cout.flush();
   
   // Check for empty matrices/vectors before accessing
   if (m == 0 || n == 0 || k == 0 || 
@@ -40,13 +34,7 @@ LeafResult ProveLeaf(const ProveParams &p,
     cerr << "[ProveLeaf] Error: Empty matrices or vectors detected\n";
     exit(1);
   }
-  
-  cout << "[ProveLeaf] Passed empty check\n";
-  cout.flush();
-  
-  cout << "[ProveLeaf] Running assertions...\n";
-  cout.flush();
-  
+
   assert((int)weights.W_x.size() == m);
   assert((int)weights.W_x[0].size() == n);
   assert((int)weights.W_h[0].size() == m);
@@ -58,10 +46,6 @@ LeafResult ProveLeaf(const ProveParams &p,
   assert((int)out.a_t.size() == m);
   assert((int)out.z_t.size() == k);
   assert((int)out.yHat_t.size() == k);
-  
-  cout << "[ProveLeaf] All assertions passed\n";
-  cout.flush();
-  
   // Step 1: Prove linear operations using ProveSumMatMul (SUMMER strategy)
   // Linear operations in a timestep:
   // 1. Wh = W_h * h_prev
@@ -72,9 +56,8 @@ LeafResult ProveLeaf(const ProveParams &p,
   
   // For now, we'll prove each matrix-vector product separately
   // In a full implementation, we could combine them into a single canonical form
-  
-  cout << "[ProveLeaf] Starting linear proofs...\n";
-  
+  cout << "[ProveLeaf] Phase 1: proving linear relations (matmuls)\n";
+
   // Compute actual matrix-vector products to match what ProveSumMatMul expects
   // Compute Wh = W_h * h_prev
   FieldVector wh_result(m, F(0));
@@ -100,41 +83,22 @@ LeafResult ProveLeaf(const ProveParams &p,
     }
   }
   
-  // Prove Wh = W_h * h_prev
-  vector<vector<FieldVector>> matrices_wh;
-  vector<FieldVector> vectors_wh;
-  matrices_wh.push_back(weights.W_h);
-  vectors_wh.push_back(in.h_prev);
-  cout << "[ProveLeaf] Calling ProveSumMatMul for Wh (matrix size=" << weights.W_h.size() 
-       << "x" << (weights.W_h.empty() ? 0 : weights.W_h[0].size()) 
-       << ", vector size=" << in.h_prev.size() << ")\n";
-  SumMatMulResult wh_proof = ProveSumMatMul(matrices_wh, vectors_wh, wh_result);
-  cout << "[ProveLeaf] ProveSumMatMul for Wh completed\n";
-  
-  // Prove Wx = W_x * x_t
-  vector<vector<FieldVector>> matrices_wx;
-  vector<FieldVector> vectors_wx;
-  matrices_wx.push_back(weights.W_x);
-  vectors_wx.push_back(in.x_t);
-  cout << "[ProveLeaf] Calling ProveSumMatMul for Wx\n";
-  SumMatMulResult wx_proof = ProveSumMatMul(matrices_wx, vectors_wx, wx_result);
-  cout << "[ProveLeaf] ProveSumMatMul for Wx completed\n";
-  
-  // Prove Zy = W_y * h_t
-  vector<vector<FieldVector>> matrices_zy;
-  vector<FieldVector> vectors_zy;
-  matrices_zy.push_back(weights.W_y);
-  vectors_zy.push_back(out.h_t);
-  cout << "[ProveLeaf] Calling ProveSumMatMul for Zy\n";
-  SumMatMulResult zy_proof = ProveSumMatMul(matrices_zy, vectors_zy, zy_result);
-  cout << "[ProveLeaf] ProveSumMatMul for Zy completed\n";
+  // Combine linear proofs using SUMMER-style block diagonal
+  vector<vector<FieldVector>> matrices_combined{weights.W_h, weights.W_x, weights.W_y};
+  vector<FieldVector> vectors_combined{in.h_prev, in.x_t, out.h_t};
+  FieldVector combined_result;
+  combined_result.reserve(wh_result.size() + wx_result.size() + zy_result.size());
+  combined_result.insert(combined_result.end(), wh_result.begin(), wh_result.end());
+  combined_result.insert(combined_result.end(), wx_result.begin(), wx_result.end());
+  combined_result.insert(combined_result.end(), zy_result.begin(), zy_result.end());
+
+  SumMatMulResult linear_proof = ProveSumMatMul(matrices_combined, vectors_combined, combined_result);
   
   // Step 2: Prove non-linear operations using ProveActivationGKR
   // 1. h = tanh(a) - tanh activation
   // 2. yHat = softmax(z) - softmax activation
   
-  cout << "[ProveLeaf] Starting activation proofs...\n";
-  cout.flush();
+  cout << "[ProveLeaf] Phase 2: proving activation ranges/logups\n";
   
   // Store quantization bits in local variable
   int num_bits = p.quantization_bits;
@@ -163,75 +127,39 @@ LeafResult ProveLeaf(const ProveParams &p,
     return masked;
   };
   
-  cout << "[ProveLeaf] Building auxiliary witness for a_t (size=" << out.a_t.size() << ")\n";
-  cout.flush();
-  
   // Build auxiliary witness for pre-activation values
   FieldVector masked_a = mask_signed(out.a_t);
   AuxWitness aux_a = BuildAuxWitness(masked_a, num_bits);
-  
-  cout << "[ProveLeaf] BuildAuxWitness for a_t completed\n";
-  cout.flush();
-  
-  cout << "[ProveLeaf] Calling ProveActivationGKR for tanh\n";
-  cout.flush();
   
   // Prove tanh activation: h = tanh(a)
   ActivationProofs tanh_proofs = ProveActivationGKR(masked_a, aux_a, out.h_t,
                                                     out.exp_tanh,
                                                     ACTIVATION_TANH, num_bits);
   
-  cout << "[ProveLeaf] ProveActivationGKR for tanh completed\n";
-  cout.flush();
-  
   // Build auxiliary witness for pre-softmax values
-  cout << "[ProveLeaf] Building auxiliary witness for z_t (size=" << out.z_t.size() << ")\n";
-  cout.flush();
-  
   FieldVector masked_z = mask_signed(out.z_t);
   AuxWitness aux_z = BuildAuxWitness(masked_z, num_bits);
-  
-  cout << "[ProveLeaf] BuildAuxWitness for z_t completed\n";
-  cout.flush();
-  
-  cout << "[ProveLeaf] Calling ProveActivationGKR for softmax\n";
-  cout.flush();
   
   // Prove softmax activation: yHat = softmax(z)
   ActivationProofs softmax_proofs = ProveActivationGKR(masked_z, aux_z, out.yHat_t,
                                                        out.exp_softmax,
                                                        ACTIVATION_SOFTMAX, num_bits);
   
-  cout << "[ProveLeaf] ProveActivationGKR for softmax completed\n";
-  cout.flush();
-  
   // Step 3: Combine all proofs into a single leaf proof
   // For now, we'll create a combined proof structure
   // In a full implementation, we would merge all proof fields
   
-  cout << "[ProveLeaf] Starting proof combination...\n";
-  cout.flush();
-  
   LeafResult result;
-  result.transcript.push_back(wh_proof.proof);
-  result.transcript.push_back(wx_proof.proof);
-  result.transcript.push_back(zy_proof.proof);
+  result.transcript.push_back(linear_proof.proof);
   result.transcript.push_back(tanh_proofs.range);
   result.transcript.push_back(softmax_proofs.range);
 
   result.logup_proofs.push_back(tanh_proofs.logup);
   result.logup_proofs.push_back(softmax_proofs.logup);
 
-  if (!result.transcript.empty()) {
-    result.step_proof = result.transcript.front();
-  }
-  result.commitments = { "W_COMMIT", "H_COMMIT" }; // Placeholder
-  result.evals.push_back(std::make_tuple("SIG", "R", "V")); // Placeholder
-  result.accumulator_out = "ACC_PLACEHOLDER"; // Placeholder
-
-  std::cout << "[ProveLeaf] Built transcript with " << result.transcript.size()
-            << " arithmetic proofs and " << result.logup_proofs.size()
-            << " logup proofs (Q=" << num_bits << ")\n";
+  std::cout << "[ProveLeaf] Phase summary: "
+            << result.transcript.size() << " arithmetic proofs, "
+            << result.logup_proofs.size() << " logup proofs\n";
   
   return result;
 }

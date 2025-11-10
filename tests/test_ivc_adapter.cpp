@@ -35,14 +35,12 @@ int main() {
   FieldVector result_vec{F(1), F(2)};
   SumMatMulResult matmul_res = ProveSumMatMul(matrices, vectors, result_vec);
   a.transcript.push_back(matmul_res.proof);
-  a.evals.push_back(std::make_tuple("SIG_A", "R_A", "V_A"));
 
   // Range proof using simple numbers
   FieldVector numbers{F(1), F(2)};
   AuxWitness aux_b = BuildAuxWitness(numbers, 4);
   proof range_res = ProveAuxConsistency(aux_b, numbers, 4);
   b.transcript.push_back(range_res);
-  b.evals.push_back(std::make_tuple("SIG_B", "R_B", "V_B"));
 
   std::vector<LeafResult> leaves{a, b};
 

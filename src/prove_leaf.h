@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <tuple>
 #include "types.h"    // your FieldVector typedef, etc.
 #include "GKR.h"      // struct proof
 #include "RNN.h"      // ExpBatch definition
@@ -11,9 +10,6 @@ struct LeafResult {
   struct proof step_proof;  // legacy placeholder (compressed proof if available)
   std::vector<struct proof> transcript;        // matmul/range proofs for the timestep
   std::vector<struct proof> logup_proofs;      // activation LOGUP proofs retained separately
-  std::vector<std::string> commitments;
-  std::vector<std::tuple<std::string, std::string, std::string>> evals; // (sigma, r, v)
-  std::string accumulator_out;
 };
 
 struct TimeStepInput {

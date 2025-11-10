@@ -404,4 +404,5 @@ tests/CMakeFiles/test_stream_orchestrator.dir/__/src/finalise_proof.cpp.o: \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/polynomial.h \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/timer.hpp \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/proof_serialization.h \
- /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/types.h
+ /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/types.h \
+ /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/proof_utils.h
