@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <string.h>
+#include <string>
 #include <time.h>
 #include "mimc.h"
 #include "quantization.h"
@@ -21,6 +22,14 @@
 #include "logup.hpp"
 #include "bench.hpp"
 #include "verifier.h"
+#include "proof_serialization.h"
+#include "witness_snapshot.h"
+
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 
 #include<unistd.h>
 using namespace std;
@@ -73,6 +82,122 @@ extern int in_size;
 int arity = 3;
 vector<F> x_transcript,y_transcript;
 F current_randomness;
+
+static bool load_inputs_from_file(vector<vector<F>>& X,
+                                  const std::string& path,
+                                  int T,
+                                  int n) {
+    std::ifstream in(path);
+    if (!in) {
+        std::fprintf(stderr, "[infer] Unable to open input file: %s\n", path.c_str());
+        return false;
+    }
+
+    const size_t expected = static_cast<size_t>(T) * static_cast<size_t>(n);
+    std::vector<float> flat;
+    flat.reserve(expected);
+
+    double value;
+    while (flat.size() < expected && (in >> value)) {
+        flat.push_back(static_cast<float>(value));
+    }
+
+    if (flat.size() != expected) {
+        std::fprintf(stderr,
+                     "[infer] Expected %zu input scalars but read %zu from %s\n",
+                     expected,
+                     flat.size(),
+                     path.c_str());
+        return false;
+    }
+
+    X.assign(T, std::vector<F>(n, F_ZERO));
+    size_t idx = 0;
+    for (int t = 0; t < T; ++t) {
+        for (int j = 0; j < n; ++j) {
+            X[t][j] = quantize(flat[idx++]);
+        }
+    }
+
+    if (in >> value) {
+        std::fprintf(stderr,
+                     "[infer] Warning: extra values detected in %s; ignoring the tail\n",
+                     path.c_str());
+    }
+
+    return true;
+}
+
+static bool load_model_from_file(rnn_layer& net,
+                                 const std::string& path,
+                                 int n,
+                                 int m,
+                                 int k) {
+    std::ifstream in(path);
+    if (!in) {
+        std::fprintf(stderr, "[infer] Unable to open model file: %s\n", path.c_str());
+        return false;
+    }
+
+    const size_t expected = static_cast<size_t>(n) * static_cast<size_t>(m)
+                          + static_cast<size_t>(m) * static_cast<size_t>(m)
+                          + static_cast<size_t>(k) * static_cast<size_t>(m)
+                          + static_cast<size_t>(m)
+                          + static_cast<size_t>(k);
+
+    std::vector<float> values;
+    values.reserve(expected);
+
+    double value;
+    while (values.size() < expected && (in >> value)) {
+        values.push_back(static_cast<float>(value));
+    }
+
+    if (values.size() != expected) {
+        std::fprintf(stderr,
+                     "[infer] Expected %zu model scalars but read %zu from %s\n",
+                     expected,
+                     values.size(),
+                     path.c_str());
+        return false;
+    }
+
+    size_t idx = 0;
+
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            net.W_x[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < m; ++j) {
+            net.W_h[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < k; ++i) {
+        for (int j = 0; j < m; ++j) {
+            net.W_y[i][j] = quantize(values[idx++]);
+        }
+    }
+
+    for (int i = 0; i < m; ++i) {
+        net.b1[i] = quantize(values[idx++]);
+    }
+
+    for (int i = 0; i < k; ++i) {
+        net.b2[i] = quantize(values[idx++]);
+    }
+
+    if (in >> value) {
+        std::fprintf(stderr,
+                     "[infer] Warning: extra values detected in %s; ignoring the tail\n",
+                     path.c_str());
+    }
+
+    return true;
+}
 
 double PeakMemGB() {
   unsigned long long bytes = 0ULL;
@@ -995,6 +1120,168 @@ void get_model_rnn(rnn_layer net, vector<F> &model) {
                  net.b2.end());
 }
 
+namespace {
+
+void CreateDirIfMissing(const std::string& dir) {
+    if (dir.empty()) return;
+#ifdef _WIN32
+    _mkdir(dir.c_str());
+#else
+    mkdir(dir.c_str(), 0755);
+#endif
+}
+
+void EnsureParentDir(const std::string& path) {
+    auto sep = path.find_last_of("/\\");
+    if (sep == std::string::npos) return;
+    std::string dir = path.substr(0, sep);
+    if (dir.empty()) return;
+
+    std::string prefix;
+    size_t pos = 0;
+
+#ifdef _WIN32
+    if (dir.size() >= 2 && dir[1] == ':') {
+        prefix = dir.substr(0, 2);
+        pos = 2;
+    }
+#endif
+
+    for (; pos < dir.size(); ++pos) {
+        char c = dir[pos];
+        prefix.push_back(c);
+        if (c == '/' || c == '\\') {
+            CreateDirIfMissing(prefix);
+        }
+    }
+
+    CreateDirIfMissing(dir);
+}
+
+std::string ResolveDumpPath() {
+    if (const char* custom = std::getenv("BENCH_DUMP")) {
+        if (custom[0] != '\0') return std::string(custom);
+    }
+    if (const char* bench_csv = std::getenv("BENCH_CSV")) {
+        std::string path(bench_csv);
+        const auto pos = path.find_last_of("/\\");
+        if (pos != std::string::npos) {
+            return path.substr(0, pos + 1) + "witness_dump.json";
+        }
+    }
+    return std::string("../bench/witness_dump.json");
+}
+
+void DumpFieldVector(std::ostream& out, const vector<F>& vec) {
+    out << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+        if (i) out << ", ";
+        out << "\"" << FieldElementToString(vec[i]) << "\"";
+    }
+    out << "]";
+}
+
+void DumpFieldMatrix(std::ostream& out, const vector<vector<F>>& matrix, int indent) {
+    out << "[\n";
+    for (size_t i = 0; i < matrix.size(); ++i) {
+        for (int j = 0; j < indent; ++j) out.put(' ');
+        DumpFieldVector(out, matrix[i]);
+        if (i + 1 != matrix.size()) out << ",";
+        out << "\n";
+    }
+    out << "]";
+}
+
+void DumpTrainingSnapshot(const rnn_layer& net,
+                          const vector<vector<F>>& inputs,
+                          const vector<F>& h0) {
+    static bool dumped = false;
+    if (dumped) return;
+
+    std::string path = ResolveDumpPath();
+    EnsureParentDir(path);
+
+    std::ofstream out(path, std::ios::out | std::ios::trunc);
+    if (!out) {
+        std::fprintf(stderr, "[dump] failed to open %s\n", path.c_str());
+        return;
+    }
+
+    dumped = true;
+    std::fprintf(stderr, "[dump] dumping snapshot to %s\n", path.c_str());
+    out << "{\n";
+    out << "  \"seq_len\": " << net.seq_len << ",\n";
+    out << "  \"input_size\": " << net.input_size << ",\n";
+    out << "  \"hidden_size\": " << net.hidden_size << ",\n";
+    out << "  \"output_size\": " << net.output_size << ",\n";
+
+    out << "  \"input_t0\": ";
+    if (!inputs.empty()) {
+        DumpFieldVector(out, inputs.front());
+    } else {
+        out << "[]";
+    }
+    out << ",\n";
+
+    out << "  \"h_prev_t0\": ";
+    DumpFieldVector(out, h0);
+    out << ",\n";
+
+    auto dump_optional_vector = [&](const char* label, const vector<vector<F>>& container) {
+        out << "  \"" << label << "\": ";
+        if (!container.empty()) {
+            DumpFieldVector(out, container.front());
+        } else {
+            out << "[]";
+        }
+        out << ",\n";
+    };
+
+    dump_optional_vector("a_t0", net.fwd.a);
+    dump_optional_vector("h_t0", net.fwd.h);
+    dump_optional_vector("z_t0", net.fwd.z);
+    dump_optional_vector("y_hat_t0", net.fwd.yHat);
+
+    out << "  \"exp_tanh\": {\n";
+    out << "    \"Xq\": ";
+    DumpFieldVector(out, net.fwd.exp_tanh.Xq);
+    out << ",\n";
+    out << "    \"Yq\": ";
+    DumpFieldVector(out, net.fwd.exp_tanh.Yq);
+    out << "\n  },\n";
+
+    out << "  \"exp_softmax\": {\n";
+    out << "    \"Xq\": ";
+    DumpFieldVector(out, net.fwd.exp_softmax.Xq);
+    out << ",\n";
+    out << "    \"Yq\": ";
+    DumpFieldVector(out, net.fwd.exp_softmax.Yq);
+    out << "\n  },\n";
+
+    out << "  \"weights\": {\n";
+    out << "    \"W_x\": ";
+    DumpFieldMatrix(out, net.W_x, 6);
+    out << ",\n";
+    out << "    \"W_h\": ";
+    DumpFieldMatrix(out, net.W_h, 6);
+    out << ",\n";
+    out << "    \"W_y\": ";
+    DumpFieldMatrix(out, net.W_y, 6);
+    out << ",\n";
+    out << "    \"b1\": ";
+    DumpFieldVector(out, net.b1);
+    out << ",\n";
+    out << "    \"b2\": ";
+    DumpFieldVector(out, net.b2);
+    out << "\n  }\n";
+
+    out << "}\n";
+    out.close();
+    std::fprintf(stderr, "[dump] wrote snapshot to %s\n", path.c_str());
+}
+
+} // namespace
+
 vector<F> rotate(vector<F> bits, int shift){
 	vector<F> new_bits;
  	for(int i = shift; i < bits.size(); i++){
@@ -1386,57 +1673,315 @@ vector<vector<F>> init_input(int T, int n)
 } 
 
 int main(int argc, char *argv[]){
-	
-	init_hash();
+    if (argc < 7) {
+        std::fprintf(stderr,
+                     "Usage: %s T n m k pc_type arity [--mode=train|infer] [--model=path] [--inputs=path]\n",
+                     argv[0]);
+        return 1;
+    }
+
+    init_hash();
     init_SHA();
-	PC_scheme = 1;
-	Commitment_hash = 1;
-	levels = 2;
-	
-   	int T = atoi(argv[1]); //seq_len
-   	int n = atoi(argv[2]);//input_size
-	int m = atoi(argv[3]);//hidden_size
-	int k = atoi(argv[4]); //output_size
-	PC_scheme = atoi(argv[5]);
-	arity = atoi(argv[6]);
+    PC_scheme = 1;
+    Commitment_hash = 1;
+    levels = 2;
+    
+    int T = atoi(argv[1]); //seq_len
+    int n = atoi(argv[2]);//input_size
+    int m = atoi(argv[3]);//hidden_size
+    int k = atoi(argv[4]); //output_size
+    PC_scheme = atoi(argv[5]);
+    arity = atoi(argv[6]);
 
-	vector<vector<vector<vector<F>>>> witness_matrixes_rnn(1);
-	vector<vector<commitment>> comm_aggr_rnn(1);
-	
-	vector<struct proof> total_aggr_first_transcript;
-	vector<F> total_aggr_first_hash;
+    std::string mode = "train";
+    std::string model_path;
+    std::string input_path;
+    std::string snapshot_path;
 
-	vector<vector<vector<vector<F>>>> proof_witness_matrixes_rnn(1);
-	vector<vector<commitment>> proof_comm_aggr_rnn(1);
+    for (int i = 7; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg.rfind("--mode=", 0) == 0) {
+            mode = arg.substr(7);
+        } else if (arg.rfind("--model=", 0) == 0) {
+            model_path = arg.substr(8);
+        } else if (arg.rfind("--inputs=", 0) == 0) {
+            input_path = arg.substr(9);
+        } else if (arg.rfind("--snapshot=", 0) == 0) {
+            snapshot_path = arg.substr(11);
+        } else {
+            std::fprintf(stderr, "Unknown argument: %s\n", arg.c_str());
+            return 1;
+        }
+    }
 
-	float RNN_PoGDsize;
+    WitnessSnapshot snapshot;
+    bool use_snapshot = false;
+    if (!snapshot_path.empty()) {
+        try {
+            snapshot = LoadWitnessSnapshot(snapshot_path);
+            use_snapshot = true;
+        } catch (const std::exception &e) {
+            std::fprintf(stderr, "[snapshot] Failed to load %s: %s\n",
+                         snapshot_path.c_str(), e.what());
+            return 1;
+        }
 
-	float commitment_time = 0.0;
-	double recursion_verifier_time = 0.0;
+        auto adopt_dim = [](int current, int candidate,
+                            const char *label) -> int {
+            if (candidate <= 0)
+                return current;
+            if (current != candidate) {
+                std::fprintf(stderr,
+                             "[snapshot] Overriding %s from %d to %d\n",
+                             label, current, candidate);
+            }
+            return candidate;
+        };
 
-	vector<vector<F>> X_rnn = init_input(T, n);
-	float aggregation_time_recursion = 0.0;
-	//TODO 需要把这里生成的hash加入到总hash里
-	check_input_rnn(T,n);
-	float rnn_data_prove_time = total_prove;
-	printf("PoGD dataset proving time: %lf\n", rnn_data_prove_time);
-	printf("PoGD dataset check size: %lf\n",proof_size(Transcript));
+        T = adopt_dim(T, snapshot.seq_len, "seq_len");
+        n = adopt_dim(n, snapshot.input_size, "input_size");
+        m = adopt_dim(m, snapshot.hidden_size, "hidden_size");
+        k = adopt_dim(k, snapshot.output_size, "output_size");
+    }
 
-	vector<F> h0(m, F(0));
+    const bool is_inference = (mode == "infer" || mode == "inference");
 
-	F lr = quantize(0.01);
+    vector<vector<F>> X_rnn;
+    FieldVector h0;
+    if (use_snapshot) {
+        if (T <= 0 || n <= 0 || m <= 0) {
+            std::fprintf(stderr,
+                         "[snapshot] Invalid dimensions after loading snapshot: "
+                         "T=%d n=%d m=%d\n",
+                         T, n, m);
+            return 1;
+        }
+        X_rnn.assign(static_cast<size_t>(T), vector<F>(n, F_ZERO));
+        if (!snapshot.input_t0.empty()) {
+            if (static_cast<int>(snapshot.input_t0.size()) != n) {
+                std::fprintf(stderr,
+                             "[snapshot] input_t0 length mismatch: expected %d "
+                             "entries, got %zu\n",
+                             n, snapshot.input_t0.size());
+                return 1;
+            }
+            if (!X_rnn.empty()) {
+                X_rnn[0] = snapshot.input_t0;
+                for (int t = 1; t < T; ++t) {
+                    X_rnn[t] = snapshot.input_t0;
+                }
+            }
+        } else {
+            std::fprintf(stderr,
+                         "[snapshot] input_t0 missing; using zeros for inputs\n");
+        }
 
-	Transcript.clear();
+        h0.assign(m, F_ZERO);
+        if (!snapshot.h_prev_t0.empty()) {
+            if (static_cast<int>(snapshot.h_prev_t0.size()) != m) {
+                std::fprintf(stderr,
+                             "[snapshot] h_prev_t0 length mismatch: expected %d "
+                             "entries, got %zu\n",
+                             m, snapshot.h_prev_t0.size());
+                return 1;
+            }
+            h0 = snapshot.h_prev_t0;
+        }
+    } else {
+        if (!input_path.empty()) {
+            if (!load_inputs_from_file(X_rnn, input_path, T, n)) {
+                return 1;
+            }
+        } else {
+            X_rnn = init_input(T, n);
+        }
+        h0.assign(m, F_ZERO);
+    }
 
-	vector<int> labels(T);
-	vector<vector<F>> y_true(T, vector<F>(k, F(0)));
-	for(int t = 0; t < T; ++t) {
-    	int cls = labels[t];        // 真正的类别编号
-    	y_true[t][cls] = quantize(1.0f);  // 量化域中的“1.0”
-	}
+    struct rnn_layer rnn_net = rnn_init(T,n,m,k);
 
-	struct rnn_layer rnn_net = rnn_init(T,n,m,k);
-	printf("RNN Model initialized.\n");
+    if (!model_path.empty() && use_snapshot) {
+        std::fprintf(stderr,
+                     "[snapshot] Warning: both --model and --snapshot supplied; "
+                     "ignoring model file in favour of snapshot\n");
+    }
+
+    if (!use_snapshot && !model_path.empty()) {
+        if (!load_model_from_file(rnn_net, model_path, n, m, k)) {
+            return 1;
+        }
+    }
+
+    if (use_snapshot) {
+        auto validate_matrix = [](const std::vector<FieldVector> &mat,
+                                  int rows,
+                                  int cols,
+                                  const char *label) -> bool {
+            if (mat.empty())
+                return true;
+            if (static_cast<int>(mat.size()) != rows) {
+                std::fprintf(stderr,
+                             "[snapshot] %s row mismatch: expected %d, got %zu\n",
+                             label, rows, mat.size());
+                return false;
+            }
+            for (size_t i = 0; i < mat.size(); ++i) {
+                if (static_cast<int>(mat[i].size()) != cols) {
+                    std::fprintf(stderr,
+                                 "[snapshot] %s column mismatch at row %zu: "
+                                 "expected %d, got %zu\n",
+                                 label, i, cols, mat[i].size());
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        if (!validate_matrix(snapshot.W_x, m, n, "W_x") ||
+            !validate_matrix(snapshot.W_h, m, m, "W_h") ||
+            !validate_matrix(snapshot.W_y, k, m, "W_y")) {
+            return 1;
+        }
+
+        if (!snapshot.W_x.empty()) rnn_net.W_x = snapshot.W_x;
+        if (!snapshot.W_h.empty()) rnn_net.W_h = snapshot.W_h;
+        if (!snapshot.W_y.empty()) rnn_net.W_y = snapshot.W_y;
+
+        if (!snapshot.b1.empty()) {
+            if (static_cast<int>(snapshot.b1.size()) != m) {
+                std::fprintf(stderr,
+                             "[snapshot] b1 length mismatch: expected %d, got %zu\n",
+                             m, snapshot.b1.size());
+                return 1;
+            }
+            rnn_net.b1 = snapshot.b1;
+        }
+        if (!snapshot.b2.empty()) {
+            if (static_cast<int>(snapshot.b2.size()) != k) {
+                std::fprintf(stderr,
+                             "[snapshot] b2 length mismatch: expected %d, got %zu\n",
+                             k, snapshot.b2.size());
+                return 1;
+            }
+            rnn_net.b2 = snapshot.b2;
+        }
+    }
+
+    if (is_inference) {
+        Transcript.clear();
+        x_transcript.clear();
+
+        total_prove = 0.0;
+        Forward_propagation_rnn = 0.0;
+        total_foward = 0.0;
+        logup_acc_total_time = 0.0;
+        logup_acc_prove_time = 0.0;
+        total_logup = 0.0;
+        total_logup_prove = 0.0;
+
+        rnn_net = rnn_forward(rnn_net, X_rnn, h0);
+
+        std::vector<F> witness_rnn;
+        get_witness_rnn(rnn_net, witness_rnn);
+
+        std::vector<F> model_rnn;
+        get_model_rnn(rnn_net, model_rnn);
+        witness_rnn.insert(witness_rnn.end(), model_rnn.begin(), model_rnn.end());
+        pad_vector(witness_rnn);
+
+        std::vector<std::vector<F>> witness_matrix_rnn;
+        commitment commitment_rnn;
+        double commit_before = g_commit_general;
+        poly_commit(witness_rnn, witness_matrix_rnn, commitment_rnn, levels);
+        double commit_time = g_commit_general - commit_before;
+
+        prove_rnn_forward(rnn_net, h0);
+
+        double prover_time = Forward_propagation_rnn;
+        double logup_total = logup_acc_total_time;
+        double logup_prove = logup_acc_prove_time;
+
+        float forward_proof_size = proof_size(Transcript);
+        printf("Inference proof size: %lf\n", forward_proof_size);
+        printf("Inference prover time: %lf\n", prover_time);
+        printf("Commitment time: %lf\n", commit_time);
+        printf("LogUp time (total / prove): %lf / %lf\n", logup_total, logup_prove);
+
+        reset_gkr_verifier_time();
+        verify_proof(Transcript);
+        double inference_verifier_time = get_gkr_verifier_time();
+        printf("Inference verifier time: %lf\n", inference_verifier_time);
+
+        double peak_mem = PeakMemGB();
+        printf("Peak resident memory: %.3f GB\n", peak_mem);
+
+        BenchmarkRow row;
+        row.timestamp = now_iso8601();
+        row.hostname = get_hostname();
+        row.T = T; row.n = n; row.m = m; row.k = k;
+        row.PC_scheme = PC_scheme;
+        row.Commitment_hash = Commitment_hash;
+        row.levels = levels;
+        row.arity = 1;
+        row.param_count = 1LL*n*m + 1LL*m*m + 1LL*k*m + m + k;
+        row.data_prove_time = 0.0;
+        row.avg_update = 0.0;
+        row.avg_backward = 0.0;
+        row.avg_forward = Forward_propagation_rnn;
+        row.avg_logup = logup_acc_total_time;
+        row.avg_logup_prove = logup_acc_prove_time;
+        row.avg_pogd = 0.0;
+        row.agg_recursion_total = 0.0;
+        row.agg_recursion_amort = 0.0;
+        row.aggr_time_total = 0.0;
+        row.aggr_time_avg = 0.0;
+        row.aggr_prove_total = 0.0;
+        row.aggr_prove_avg = 0.0;
+        row.commit_time_avg = commit_time;
+        row.recursion_verifier_time = inference_verifier_time;
+        row.verifier_time = inference_verifier_time;
+        row.pogd_proof_size = 0.0f;
+        row.final_proof_size = forward_proof_size;
+        row.peak_memory = peak_mem;
+
+        append_benchmark_csv("bench_results_infer.csv", row);
+        std::fprintf(stderr, "[bench] appended to bench_results_infer.csv\n");
+
+        return 0;
+    }
+
+    printf("RNN Model initialized.\n");
+
+    vector<vector<vector<vector<F>>>> witness_matrixes_rnn(1);
+    vector<vector<commitment>> comm_aggr_rnn(1);
+
+    vector<struct proof> total_aggr_first_transcript;
+    vector<F> total_aggr_first_hash;
+
+    vector<vector<vector<vector<F>>>> proof_witness_matrixes_rnn(1);
+    vector<vector<commitment>> proof_comm_aggr_rnn(1);
+
+    float RNN_PoGDsize;
+
+    float commitment_time = 0.0f;
+    double recursion_verifier_time = 0.0;
+    float aggregation_time_recursion = 0.0f;
+
+    check_input_rnn(T,n);
+    float rnn_data_prove_time = total_prove;
+    printf("PoGD dataset proving time: %lf\n", rnn_data_prove_time);
+    printf("PoGD dataset check size: %lf\n",proof_size(Transcript));
+
+    F lr = quantize(0.01);
+
+    Transcript.clear();
+
+    vector<int> labels(T);
+    vector<vector<F>> y_true(T, vector<F>(k, F(0)));
+    for(int t = 0; t < T; ++t) {
+        int cls = labels[t];        // 真正的类别编号
+        y_true[t][cls] = quantize(1.0f);  // 量化域中的“1.0”
+    }
 	
 	for(int i = 0; i < arity; i++){
 		witness_matrixes_rnn[0].clear();
@@ -1448,6 +1993,7 @@ int main(int argc, char *argv[]){
 			printf("Iteration : %d\n", i*arity + j);
 
 			rnn_net = rnn_forward(rnn_net,X_rnn,h0);
+            DumpTrainingSnapshot(rnn_net, X_rnn, h0);
 			rnn_net = rnn_bptt(rnn_net, y_true);
 			rnn_net = rnn_update(rnn_net, lr);
 

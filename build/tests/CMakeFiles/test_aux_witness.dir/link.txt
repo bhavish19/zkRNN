@@ -1,0 +1,1 @@
+/usr/bin/c++ -w -march=native -mavx -lgmp -msha -g CMakeFiles/test_aux_witness.dir/__/src/aux_witness.cpp.o CMakeFiles/test_aux_witness.dir/__/src/fieldElement.cpp.o CMakeFiles/test_aux_witness.dir/test_aux_witness.cpp.o -o test_aux_witness   -L"/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/lib" 

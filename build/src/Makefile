@@ -178,6 +178,126 @@ RNN.cpp.s:
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/RNN.cpp.s
 .PHONY : RNN.cpp.s
 
+activation_circuit_loader.o: activation_circuit_loader.cpp.o
+.PHONY : activation_circuit_loader.o
+
+# target to build an object file
+activation_circuit_loader.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.o
+.PHONY : activation_circuit_loader.cpp.o
+
+activation_circuit_loader.i: activation_circuit_loader.cpp.i
+.PHONY : activation_circuit_loader.i
+
+# target to preprocess a source file
+activation_circuit_loader.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.i
+.PHONY : activation_circuit_loader.cpp.i
+
+activation_circuit_loader.s: activation_circuit_loader.cpp.s
+.PHONY : activation_circuit_loader.s
+
+# target to generate assembly for a file
+activation_circuit_loader.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_circuit_loader.cpp.s
+.PHONY : activation_circuit_loader.cpp.s
+
+activation_gkr.o: activation_gkr.cpp.o
+.PHONY : activation_gkr.o
+
+# target to build an object file
+activation_gkr.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_gkr.cpp.o
+.PHONY : activation_gkr.cpp.o
+
+activation_gkr.i: activation_gkr.cpp.i
+.PHONY : activation_gkr.i
+
+# target to preprocess a source file
+activation_gkr.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_gkr.cpp.i
+.PHONY : activation_gkr.cpp.i
+
+activation_gkr.s: activation_gkr.cpp.s
+.PHONY : activation_gkr.s
+
+# target to generate assembly for a file
+activation_gkr.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_gkr.cpp.s
+.PHONY : activation_gkr.cpp.s
+
+activation_witness.o: activation_witness.cpp.o
+.PHONY : activation_witness.o
+
+# target to build an object file
+activation_witness.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_witness.cpp.o
+.PHONY : activation_witness.cpp.o
+
+activation_witness.i: activation_witness.cpp.i
+.PHONY : activation_witness.i
+
+# target to preprocess a source file
+activation_witness.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_witness.cpp.i
+.PHONY : activation_witness.cpp.i
+
+activation_witness.s: activation_witness.cpp.s
+.PHONY : activation_witness.s
+
+# target to generate assembly for a file
+activation_witness.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/activation_witness.cpp.s
+.PHONY : activation_witness.cpp.s
+
+aux_sumcheck.o: aux_sumcheck.cpp.o
+.PHONY : aux_sumcheck.o
+
+# target to build an object file
+aux_sumcheck.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.o
+.PHONY : aux_sumcheck.cpp.o
+
+aux_sumcheck.i: aux_sumcheck.cpp.i
+.PHONY : aux_sumcheck.i
+
+# target to preprocess a source file
+aux_sumcheck.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.i
+.PHONY : aux_sumcheck.cpp.i
+
+aux_sumcheck.s: aux_sumcheck.cpp.s
+.PHONY : aux_sumcheck.s
+
+# target to generate assembly for a file
+aux_sumcheck.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_sumcheck.cpp.s
+.PHONY : aux_sumcheck.cpp.s
+
+aux_witness.o: aux_witness.cpp.o
+.PHONY : aux_witness.o
+
+# target to build an object file
+aux_witness.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_witness.cpp.o
+.PHONY : aux_witness.cpp.o
+
+aux_witness.i: aux_witness.cpp.i
+.PHONY : aux_witness.i
+
+# target to preprocess a source file
+aux_witness.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_witness.cpp.i
+.PHONY : aux_witness.cpp.i
+
+aux_witness.s: aux_witness.cpp.s
+.PHONY : aux_witness.s
+
+# target to generate assembly for a file
+aux_witness.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/aux_witness.cpp.s
+.PHONY : aux_witness.cpp.s
+
 circuit.o: circuit.cpp.o
 .PHONY : circuit.o
 
@@ -250,29 +370,53 @@ fieldElement.cpp.s:
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/fieldElement.cpp.s
 .PHONY : fieldElement.cpp.s
 
-flo-shani.o: flo-shani.c.o
-.PHONY : flo-shani.o
+finalise_proof.o: finalise_proof.cpp.o
+.PHONY : finalise_proof.o
 
 # target to build an object file
-flo-shani.c.o:
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/flo-shani.c.o
-.PHONY : flo-shani.c.o
+finalise_proof.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/finalise_proof.cpp.o
+.PHONY : finalise_proof.cpp.o
 
-flo-shani.i: flo-shani.c.i
-.PHONY : flo-shani.i
+finalise_proof.i: finalise_proof.cpp.i
+.PHONY : finalise_proof.i
 
 # target to preprocess a source file
-flo-shani.c.i:
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/flo-shani.c.i
-.PHONY : flo-shani.c.i
+finalise_proof.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/finalise_proof.cpp.i
+.PHONY : finalise_proof.cpp.i
 
-flo-shani.s: flo-shani.c.s
-.PHONY : flo-shani.s
+finalise_proof.s: finalise_proof.cpp.s
+.PHONY : finalise_proof.s
 
 # target to generate assembly for a file
-flo-shani.c.s:
-	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/flo-shani.c.s
-.PHONY : flo-shani.c.s
+finalise_proof.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/finalise_proof.cpp.s
+.PHONY : finalise_proof.cpp.s
+
+ivc_adapter.o: ivc_adapter.cpp.o
+.PHONY : ivc_adapter.o
+
+# target to build an object file
+ivc_adapter.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.o
+.PHONY : ivc_adapter.cpp.o
+
+ivc_adapter.i: ivc_adapter.cpp.i
+.PHONY : ivc_adapter.i
+
+# target to preprocess a source file
+ivc_adapter.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.i
+.PHONY : ivc_adapter.cpp.i
+
+ivc_adapter.s: ivc_adapter.cpp.s
+.PHONY : ivc_adapter.s
+
+# target to generate assembly for a file
+ivc_adapter.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/ivc_adapter.cpp.s
+.PHONY : ivc_adapter.cpp.s
 
 linear_code_encode.o: linear_code_encode.cpp.o
 .PHONY : linear_code_encode.o
@@ -466,6 +610,54 @@ polynomial.cpp.s:
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/polynomial.cpp.s
 .PHONY : polynomial.cpp.s
 
+proof_serialization.o: proof_serialization.cpp.o
+.PHONY : proof_serialization.o
+
+# target to build an object file
+proof_serialization.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/proof_serialization.cpp.o
+.PHONY : proof_serialization.cpp.o
+
+proof_serialization.i: proof_serialization.cpp.i
+.PHONY : proof_serialization.i
+
+# target to preprocess a source file
+proof_serialization.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/proof_serialization.cpp.i
+.PHONY : proof_serialization.cpp.i
+
+proof_serialization.s: proof_serialization.cpp.s
+.PHONY : proof_serialization.s
+
+# target to generate assembly for a file
+proof_serialization.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/proof_serialization.cpp.s
+.PHONY : proof_serialization.cpp.s
+
+prove_leaf.o: prove_leaf.cpp.o
+.PHONY : prove_leaf.o
+
+# target to build an object file
+prove_leaf.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/prove_leaf.cpp.o
+.PHONY : prove_leaf.cpp.o
+
+prove_leaf.i: prove_leaf.cpp.i
+.PHONY : prove_leaf.i
+
+# target to preprocess a source file
+prove_leaf.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/prove_leaf.cpp.i
+.PHONY : prove_leaf.cpp.i
+
+prove_leaf.s: prove_leaf.cpp.s
+.PHONY : prove_leaf.s
+
+# target to generate assembly for a file
+prove_leaf.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/prove_leaf.cpp.s
+.PHONY : prove_leaf.cpp.s
+
 prover.o: prover.cpp.o
 .PHONY : prover.o
 
@@ -513,6 +705,54 @@ quantization.s: quantization.cpp.s
 quantization.cpp.s:
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/quantization.cpp.s
 .PHONY : quantization.cpp.s
+
+stream_orchestrator.o: stream_orchestrator.cpp.o
+.PHONY : stream_orchestrator.o
+
+# target to build an object file
+stream_orchestrator.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.o
+.PHONY : stream_orchestrator.cpp.o
+
+stream_orchestrator.i: stream_orchestrator.cpp.i
+.PHONY : stream_orchestrator.i
+
+# target to preprocess a source file
+stream_orchestrator.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.i
+.PHONY : stream_orchestrator.cpp.i
+
+stream_orchestrator.s: stream_orchestrator.cpp.s
+.PHONY : stream_orchestrator.s
+
+# target to generate assembly for a file
+stream_orchestrator.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/stream_orchestrator.cpp.s
+.PHONY : stream_orchestrator.cpp.s
+
+sum_matmul_wrapper.o: sum_matmul_wrapper.cpp.o
+.PHONY : sum_matmul_wrapper.o
+
+# target to build an object file
+sum_matmul_wrapper.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.o
+.PHONY : sum_matmul_wrapper.cpp.o
+
+sum_matmul_wrapper.i: sum_matmul_wrapper.cpp.i
+.PHONY : sum_matmul_wrapper.i
+
+# target to preprocess a source file
+sum_matmul_wrapper.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.i
+.PHONY : sum_matmul_wrapper.cpp.i
+
+sum_matmul_wrapper.s: sum_matmul_wrapper.cpp.s
+.PHONY : sum_matmul_wrapper.s
+
+# target to generate assembly for a file
+sum_matmul_wrapper.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/sum_matmul_wrapper.cpp.s
+.PHONY : sum_matmul_wrapper.cpp.s
 
 timer.o: timer.cpp.o
 .PHONY : timer.o
@@ -586,6 +826,54 @@ verifier.cpp.s:
 	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/verifier.cpp.s
 .PHONY : verifier.cpp.s
 
+verifier_stub.o: verifier_stub.cpp.o
+.PHONY : verifier_stub.o
+
+# target to build an object file
+verifier_stub.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/verifier_stub.cpp.o
+.PHONY : verifier_stub.cpp.o
+
+verifier_stub.i: verifier_stub.cpp.i
+.PHONY : verifier_stub.i
+
+# target to preprocess a source file
+verifier_stub.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/verifier_stub.cpp.i
+.PHONY : verifier_stub.cpp.i
+
+verifier_stub.s: verifier_stub.cpp.s
+.PHONY : verifier_stub.s
+
+# target to generate assembly for a file
+verifier_stub.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/verifier_stub.cpp.s
+.PHONY : verifier_stub.cpp.s
+
+witness_snapshot.o: witness_snapshot.cpp.o
+.PHONY : witness_snapshot.o
+
+# target to build an object file
+witness_snapshot.cpp.o:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.o
+.PHONY : witness_snapshot.cpp.o
+
+witness_snapshot.i: witness_snapshot.cpp.i
+.PHONY : witness_snapshot.i
+
+# target to preprocess a source file
+witness_snapshot.cpp.i:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.i
+.PHONY : witness_snapshot.cpp.i
+
+witness_snapshot.s: witness_snapshot.cpp.s
+.PHONY : witness_snapshot.s
+
+# target to generate assembly for a file
+witness_snapshot.cpp.s:
+	cd "/mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/build" && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/witness_snapshot.cpp.s
+.PHONY : witness_snapshot.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -601,6 +889,21 @@ help:
 	@echo "... RNN.o"
 	@echo "... RNN.i"
 	@echo "... RNN.s"
+	@echo "... activation_circuit_loader.o"
+	@echo "... activation_circuit_loader.i"
+	@echo "... activation_circuit_loader.s"
+	@echo "... activation_gkr.o"
+	@echo "... activation_gkr.i"
+	@echo "... activation_gkr.s"
+	@echo "... activation_witness.o"
+	@echo "... activation_witness.i"
+	@echo "... activation_witness.s"
+	@echo "... aux_sumcheck.o"
+	@echo "... aux_sumcheck.i"
+	@echo "... aux_sumcheck.s"
+	@echo "... aux_witness.o"
+	@echo "... aux_witness.i"
+	@echo "... aux_witness.s"
 	@echo "... circuit.o"
 	@echo "... circuit.i"
 	@echo "... circuit.s"
@@ -610,9 +913,12 @@ help:
 	@echo "... fieldElement.o"
 	@echo "... fieldElement.i"
 	@echo "... fieldElement.s"
-	@echo "... flo-shani.o"
-	@echo "... flo-shani.i"
-	@echo "... flo-shani.s"
+	@echo "... finalise_proof.o"
+	@echo "... finalise_proof.i"
+	@echo "... finalise_proof.s"
+	@echo "... ivc_adapter.o"
+	@echo "... ivc_adapter.i"
+	@echo "... ivc_adapter.s"
 	@echo "... linear_code_encode.o"
 	@echo "... linear_code_encode.i"
 	@echo "... linear_code_encode.s"
@@ -637,12 +943,24 @@ help:
 	@echo "... polynomial.o"
 	@echo "... polynomial.i"
 	@echo "... polynomial.s"
+	@echo "... proof_serialization.o"
+	@echo "... proof_serialization.i"
+	@echo "... proof_serialization.s"
+	@echo "... prove_leaf.o"
+	@echo "... prove_leaf.i"
+	@echo "... prove_leaf.s"
 	@echo "... prover.o"
 	@echo "... prover.i"
 	@echo "... prover.s"
 	@echo "... quantization.o"
 	@echo "... quantization.i"
 	@echo "... quantization.s"
+	@echo "... stream_orchestrator.o"
+	@echo "... stream_orchestrator.i"
+	@echo "... stream_orchestrator.s"
+	@echo "... sum_matmul_wrapper.o"
+	@echo "... sum_matmul_wrapper.i"
+	@echo "... sum_matmul_wrapper.s"
 	@echo "... timer.o"
 	@echo "... timer.i"
 	@echo "... timer.s"
@@ -652,6 +970,12 @@ help:
 	@echo "... verifier.o"
 	@echo "... verifier.i"
 	@echo "... verifier.s"
+	@echo "... verifier_stub.o"
+	@echo "... verifier_stub.i"
+	@echo "... verifier_stub.s"
+	@echo "... witness_snapshot.o"
+	@echo "... witness_snapshot.i"
+	@echo "... witness_snapshot.s"
 .PHONY : help
 
 

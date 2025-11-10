@@ -129,6 +129,175 @@ zkpot/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/zkpot.dir/build.make src/CMakeFiles/zkpot.dir/build
 .PHONY : zkpot/fast
 
+#=============================================================================
+# Target rules for targets named test_aux_witness
+
+# Build rule for target.
+test_aux_witness: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aux_witness
+.PHONY : test_aux_witness
+
+# fast build rule for target.
+test_aux_witness/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_aux_witness.dir/build.make tests/CMakeFiles/test_aux_witness.dir/build
+.PHONY : test_aux_witness/fast
+
+#=============================================================================
+# Target rules for targets named test_prove_leaf
+
+# Build rule for target.
+test_prove_leaf: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_prove_leaf
+.PHONY : test_prove_leaf
+
+# fast build rule for target.
+test_prove_leaf/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_prove_leaf.dir/build.make tests/CMakeFiles/test_prove_leaf.dir/build
+.PHONY : test_prove_leaf/fast
+
+#=============================================================================
+# Target rules for targets named test_activation_gkr
+
+# Build rule for target.
+test_activation_gkr: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_activation_gkr
+.PHONY : test_activation_gkr
+
+# fast build rule for target.
+test_activation_gkr/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_activation_gkr.dir/build.make tests/CMakeFiles/test_activation_gkr.dir/build
+.PHONY : test_activation_gkr/fast
+
+#=============================================================================
+# Target rules for targets named test_activation_loader
+
+# Build rule for target.
+test_activation_loader: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_activation_loader
+.PHONY : test_activation_loader
+
+# fast build rule for target.
+test_activation_loader/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_activation_loader.dir/build.make tests/CMakeFiles/test_activation_loader.dir/build
+.PHONY : test_activation_loader/fast
+
+#=============================================================================
+# Target rules for targets named test_activation_witness
+
+# Build rule for target.
+test_activation_witness: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_activation_witness
+.PHONY : test_activation_witness
+
+# fast build rule for target.
+test_activation_witness/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_activation_witness.dir/build.make tests/CMakeFiles/test_activation_witness.dir/build
+.PHONY : test_activation_witness/fast
+
+#=============================================================================
+# Target rules for targets named test_ivc_adapter
+
+# Build rule for target.
+test_ivc_adapter: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_ivc_adapter
+.PHONY : test_ivc_adapter
+
+# fast build rule for target.
+test_ivc_adapter/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_ivc_adapter.dir/build.make tests/CMakeFiles/test_ivc_adapter.dir/build
+.PHONY : test_ivc_adapter/fast
+
+#=============================================================================
+# Target rules for targets named test_stream_orchestrator
+
+# Build rule for target.
+test_stream_orchestrator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_stream_orchestrator
+.PHONY : test_stream_orchestrator
+
+# fast build rule for target.
+test_stream_orchestrator/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_stream_orchestrator.dir/build.make tests/CMakeFiles/test_stream_orchestrator.dir/build
+.PHONY : test_stream_orchestrator/fast
+
+#=============================================================================
+# Target rules for targets named test_sum_matmul_wrapper
+
+# Build rule for target.
+test_sum_matmul_wrapper: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_sum_matmul_wrapper
+.PHONY : test_sum_matmul_wrapper
+
+# fast build rule for target.
+test_sum_matmul_wrapper/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_sum_matmul_wrapper.dir/build.make tests/CMakeFiles/test_sum_matmul_wrapper.dir/build
+.PHONY : test_sum_matmul_wrapper/fast
+
+#=============================================================================
+# Target rules for targets named test_sum_matmul
+
+# Build rule for target.
+test_sum_matmul: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_sum_matmul
+.PHONY : test_sum_matmul
+
+# fast build rule for target.
+test_sum_matmul/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_sum_matmul.dir/build.make tests/CMakeFiles/test_sum_matmul.dir/build
+.PHONY : test_sum_matmul/fast
+
+#=============================================================================
+# Target rules for targets named test_aux_sumcheck
+
+# Build rule for target.
+test_aux_sumcheck: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_aux_sumcheck
+.PHONY : test_aux_sumcheck
+
+# fast build rule for target.
+test_aux_sumcheck/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_aux_sumcheck.dir/build.make tests/CMakeFiles/test_aux_sumcheck.dir/build
+.PHONY : test_aux_sumcheck/fast
+
+#=============================================================================
+# Target rules for targets named test_finalise_verifier
+
+# Build rule for target.
+test_finalise_verifier: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_finalise_verifier
+.PHONY : test_finalise_verifier
+
+# fast build rule for target.
+test_finalise_verifier/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_finalise_verifier.dir/build.make tests/CMakeFiles/test_finalise_verifier.dir/build
+.PHONY : test_finalise_verifier/fast
+
+#=============================================================================
+# Target rules for targets named test_proof_serialization
+
+# Build rule for target.
+test_proof_serialization: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_proof_serialization
+.PHONY : test_proof_serialization
+
+# fast build rule for target.
+test_proof_serialization/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_proof_serialization.dir/build.make tests/CMakeFiles/test_proof_serialization.dir/build
+.PHONY : test_proof_serialization/fast
+
+#=============================================================================
+# Target rules for targets named test_witness_snapshot
+
+# Build rule for target.
+test_witness_snapshot: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_witness_snapshot
+.PHONY : test_witness_snapshot
+
+# fast build rule for target.
+test_witness_snapshot/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_witness_snapshot.dir/build.make tests/CMakeFiles/test_witness_snapshot.dir/build
+.PHONY : test_witness_snapshot/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -137,6 +306,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test_activation_gkr"
+	@echo "... test_activation_loader"
+	@echo "... test_activation_witness"
+	@echo "... test_aux_sumcheck"
+	@echo "... test_aux_witness"
+	@echo "... test_finalise_verifier"
+	@echo "... test_ivc_adapter"
+	@echo "... test_proof_serialization"
+	@echo "... test_prove_leaf"
+	@echo "... test_stream_orchestrator"
+	@echo "... test_sum_matmul"
+	@echo "... test_sum_matmul_wrapper"
+	@echo "... test_witness_snapshot"
 	@echo "... zkpot"
 .PHONY : help
 
