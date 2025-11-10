@@ -65,12 +65,10 @@ int main() {
   LeafResult result = ProveLeaf(p, in, weights, out);
   
   // Verify proof structure
-  assert(result.transcript.size() == 5);
+  assert(result.transcript.size() == 3);
   assert(result.transcript[0].type == MATMUL_PROOF);
-  assert(result.transcript[1].type == MATMUL_PROOF);
-  assert(result.transcript[2].type == MATMUL_PROOF);
-  assert(result.transcript[3].type == RANGE_PROOF);
-  assert(result.transcript[4].type == RANGE_PROOF);
+  assert(result.transcript[1].type == RANGE_PROOF);
+  assert(result.transcript[2].type == RANGE_PROOF);
 
   assert(result.logup_proofs.size() == 2);
   assert(result.logup_proofs[0].type == LOGUP_PROOF);

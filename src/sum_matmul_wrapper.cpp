@@ -12,48 +12,6 @@
 
 using namespace std;
 
-// Helper function to combine matrices and vectors into canonical form
-// For SUMMER strategy: combine multiple M*v into single M_combined * x_combined
-static vector<vector<F>> combine_matrices(const vector<vector<FieldVector>> &matrices) {
-  if (matrices.empty()) return {};
-  
-  // Get dimensions
-  size_t total_cols = 0;
-  size_t rows = matrices[0].size();
-  
-  // Calculate total columns (sum of all matrix columns)
-  for (const auto &M : matrices) {
-    if (!M.empty()) {
-      total_cols += M[0].size();
-      assert(M.size() == rows); // All matrices must have same number of rows
-    }
-  }
-  
-  // Combine matrices by concatenating columns
-  vector<vector<F>> combined(rows, vector<F>(total_cols));
-  size_t col_offset = 0;
-  
-  for (const auto &M : matrices) {
-    for (size_t i = 0; i < M.size(); ++i) {
-      for (size_t j = 0; j < M[i].size(); ++j) {
-        combined[i][col_offset + j] = M[i][j];
-      }
-    }
-    col_offset += (M.empty() ? 0 : M[0].size());
-  }
-  
-  return combined;
-}
-
-// Helper function to combine vectors into single vector
-static vector<F> combine_vectors(const vector<FieldVector> &vectors) {
-  vector<F> combined;
-  for (const auto &v : vectors) {
-    combined.insert(combined.end(), v.begin(), v.end());
-  }
-  return combined;
-}
-
 SumMatMulResult ProveSumMatMul(const vector<vector<FieldVector>> &matrices,
                                const vector<FieldVector> &vectors,
                                const FieldVector &result) {
@@ -165,19 +123,66 @@ SumMatMulResult ProveSumMatMul(const vector<vector<FieldVector>> &matrices,
     
     return result_obj;
   } else {
-    // Multiple matrix-vector products case
-    // For Phase 1, we'll combine them into single canonical form
-    // TODO: Implement proper SUMMER-style combination in later phase
-    
-    // Combine matrices and vectors
-    vector<vector<F>> M_combined = combine_matrices(matrices);
-    vector<F> x_combined = combine_vectors(vectors);
-    
-    // Verify dimensions
-    assert(M_combined.size() == result.size());
-    assert(M_combined[0].size() == x_combined.size());
-    
-    // For now, treat as single matrix-vector product
-    return ProveSumMatMul({M_combined}, {x_combined}, result);
+    std::cout << "[ProveSumMatMul] Combining " << matrices.size()
+              << " matrix-vector products into block-diagonal proof\n";
+
+    // Multiple matrix-vector products: build a block-diagonal matrix so that
+    // diag(M_0, ..., M_k) * concat(x_0, ..., x_k) = concat(M_0 x_0, ..., M_k x_k)
+    size_t total_rows = 0;
+    size_t total_cols = 0;
+    vector<size_t> row_offsets;
+    vector<size_t> col_offsets;
+    row_offsets.reserve(matrices.size());
+    col_offsets.reserve(matrices.size());
+
+    for (size_t idx = 0; idx < matrices.size(); ++idx) {
+      const auto &M = matrices[idx];
+      assert(!M.empty());
+      const size_t rows = M.size();
+      const size_t cols = M[0].size();
+      for (const auto &row : M) {
+        assert(row.size() == cols);
+      }
+      assert(vectors[idx].size() == cols);
+
+      row_offsets.push_back(total_rows);
+      col_offsets.push_back(total_cols);
+      total_rows += rows;
+      total_cols += cols;
+    }
+
+    assert(result.size() == total_rows);
+
+    vector<FieldVector> block(total_rows, FieldVector(total_cols, F_ZERO));
+    FieldVector combined_vector(total_cols, F_ZERO);
+    FieldVector computed(total_rows, F_ZERO);
+
+    for (size_t idx = 0; idx < matrices.size(); ++idx) {
+      const auto &M = matrices[idx];
+      const auto &x = vectors[idx];
+      const size_t row_off = row_offsets[idx];
+      const size_t col_off = col_offsets[idx];
+      for (size_t i = 0; i < M.size(); ++i) {
+        F acc = F_ZERO;
+        for (size_t j = 0; j < M[i].size(); ++j) {
+          const F val = M[i][j];
+          block[row_off + i][col_off + j] = val;
+          acc = acc + val * x[j];
+        }
+        computed[row_off + i] = acc;
+      }
+      for (size_t j = 0; j < x.size(); ++j) {
+        combined_vector[col_off + j] = x[j];
+      }
+    }
+
+    for (size_t i = 0; i < total_rows; ++i) {
+      if (computed[i] != result[i]) {
+        printf("[ProveSumMatMul] Error: combined result mismatch at index %zu\n", i);
+        exit(-1);
+      }
+    }
+
+    return ProveSumMatMul({block}, {combined_vector}, result);
   }
 }

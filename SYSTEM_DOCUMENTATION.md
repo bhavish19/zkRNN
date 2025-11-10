@@ -134,19 +134,22 @@ The streaming interfaces allow step-wise proving over live inputs rather than fu
 
 `ProveLeaf` produces the proof bundle for a single timestep:
 
-- Uses `ProveSumMatMul` to attest to matrix-vector products for `W_h`, `W_x`, and `W_y`.
+- Uses `ProveSumMatMul` to batch the linear relations (`W_h·h_prev`, `W_x·x_t`, `W_y·h_t`) into a single block-diagonal MATMUL proof.
 - Builds auxiliary witnesses (`BuildAuxWitness`) for fixed-point bit-decompositions.
 - Invokes `ProveActivationGKR` to wrap KAIZEN’s GKR activation proofs (`activation_gkr.cpp`) alongside logup lookups.
 - Packs results into `LeafResult`, exposing raw transcript entries and logup proofs while keeping an optional `step_proof` for legacy fallbacks.
 
-```63:131:src/prove_leaf.cpp
-  // Prove Wh = W_h * h_prev
-  vector<vector<FieldVector>> matrices_wh;
-  vector<FieldVector> vectors_wh;
-  matrices_wh.push_back(weights.W_h);
-  vectors_wh.push_back(in.h_prev);
-  SumMatMulResult wh_proof = ProveSumMatMul(matrices_wh, vectors_wh, wh_result);
-...
+```139:205:src/prove_leaf.cpp
+  vector<vector<FieldVector>> matrices_combined{weights.W_h, weights.W_x, weights.W_y};
+  vector<FieldVector> vectors_combined{in.h_prev, in.x_t, out.h_t};
+  FieldVector combined_result;
+  combined_result.reserve(wh_result.size() + wx_result.size() + zy_result.size());
+  combined_result.insert(combined_result.end(), wh_result.begin(), wh_result.end());
+  combined_result.insert(combined_result.end(), wx_result.begin(), wx_result.end());
+  combined_result.insert(combined_result.end(), zy_result.begin(), zy_result.end());
+
+  SumMatMulResult linear_proof = ProveSumMatMul(matrices_combined, vectors_combined, combined_result);
+
   ActivationProofs tanh_proofs = ProveActivationGKR(masked_a, aux_a, out.h_t,
                                                     out.exp_tanh,
                                                     ACTIVATION_TANH, num_bits);

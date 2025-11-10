@@ -1725,7 +1725,8 @@ tests/CMakeFiles/test_finalise_verifier.dir/__/src/finalise_proof.cpp.o: ../src/
   ../src/polynomial.h \
   ../src/timer.hpp \
   ../src/proof_serialization.h \
-  ../src/types.h
+  ../src/types.h \
+  ../src/proof_utils.h
 
 tests/CMakeFiles/test_finalise_verifier.dir/__/src/mimc.cpp.o: ../src/mimc.cpp \
   /usr/include/stdc-predef.h \

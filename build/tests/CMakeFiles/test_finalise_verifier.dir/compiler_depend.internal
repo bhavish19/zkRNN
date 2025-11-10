@@ -1730,6 +1730,7 @@ tests/CMakeFiles/test_finalise_verifier.dir/__/src/finalise_proof.cpp.o
  /mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/timer.hpp
  /mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/proof_serialization.h
  /mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/types.h
+ /mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/proof_utils.h
 
 tests/CMakeFiles/test_finalise_verifier.dir/__/src/mimc.cpp.o
  /mnt/c/Users/BhavishMohee/Desktop/Master's Dissertation/zkRNN/src/mimc.cpp

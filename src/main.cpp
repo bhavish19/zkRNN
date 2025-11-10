@@ -741,9 +741,12 @@ void prove_rnn_forward(struct rnn_layer net, vector<F> h_init){
 	int T = net.seq_len;
 	int m = net.hidden_size;
 	int k = net.output_size;
+	std::cout << "[ProveRNN] Forward proof start (T=" << T
+	          << ", m=" << m << ", k=" << k << ")\n";
 	logup_reset_all_accumulators();
 	vector<F> prev_h = h_init;
 	//softmax lookup
+	std::cout << "[ProveRNN]   Softmax lookup commitments\n";
 	P = prove_logup(net.fwd.exp_softmax, 15, 32);
 	Transcript.push_back(P);
 
@@ -763,10 +766,12 @@ void prove_rnn_forward(struct rnn_layer net, vector<F> h_init){
 	Transcript.push_back(P);
 
 	previous_sum = P.in1;
+	std::cout << "[ProveRNN]   Matrix proof for W_y * h_t\n";
 	P = _prove_matrix2matrix(net.fwd.h,net.W_y,r,previous_sum);		
 	Transcript.push_back(P);
 
 	//tanh Lookup
+	std::cout << "[ProveRNN]   Tanh lookup commitments\n";
 	P = prove_logup(net.fwd.exp_tanh, 15,32);
 	Transcript.push_back(P);
 
@@ -788,12 +793,14 @@ void prove_rnn_forward(struct rnn_layer net, vector<F> h_init){
 
 	previous_sum = P.in1;
 
+	std::cout << "[ProveRNN]   Matrix proof for Wh + Wx decomposition\n";
 	P = prove_matrix_add(net.fwd.Wh, net.fwd.Wx, r, previous_sum);
 	Transcript.push_back(P);
 
 	F sum_Wh = P.in1;
 	F sum_Wx = P.in2;
 
+	std::cout << "[ProveRNN]   Matrix proof for W_x * x_t\n";
 	P = _prove_matrix2matrix(net.fwd.x, net.W_x,r, sum_Wx);
     Transcript.push_back(P);
 		
@@ -804,7 +811,12 @@ void prove_rnn_forward(struct rnn_layer net, vector<F> h_init){
     	} else {
         	Hprev[t] = h_init;           // t=0 用初始化 h_init
     	}
+		if (T <= 32 || t % 64 == 0 || t == T-1) {
+			std::cout << "[ProveRNN]     Prepared inputs for timestep "
+			          << t << "/" << (T-1) << "\n";
+		}
 	}
+	std::cout << "[ProveRNN]   Matrix proof for W_h * h_{t-1}\n";
 	P = _prove_matrix2matrix(Hprev,net.W_h,r,sum_Wh);
 	Transcript.push_back(P);
 
@@ -812,6 +824,7 @@ void prove_rnn_forward(struct rnn_layer net, vector<F> h_init){
 
 	Forward_propagation_rnn = proof1;
 	total_foward += Forward_propagation_rnn;
+	std::cout << "[ProveRNN] Forward proof complete (time=" << Forward_propagation_rnn << "s)\n";
 }
 
 struct proof prove_rnn_db1(const rnn_layer& net){
@@ -1879,7 +1892,10 @@ int main(int argc, char *argv[]){
         total_logup = 0.0;
         total_logup_prove = 0.0;
 
+        std::cout << "[Inference] Starting forward pass (T=" << T
+                  << ", n=" << n << ", m=" << m << ", k=" << k << ")\n";
         rnn_net = rnn_forward(rnn_net, X_rnn, h0);
+        std::cout << "[Inference] Forward pass complete; collecting witness data\n";
 
         std::vector<F> witness_rnn;
         get_witness_rnn(rnn_net, witness_rnn);
@@ -1888,13 +1904,18 @@ int main(int argc, char *argv[]){
         get_model_rnn(rnn_net, model_rnn);
         witness_rnn.insert(witness_rnn.end(), model_rnn.begin(), model_rnn.end());
         pad_vector(witness_rnn);
+        std::cout << "[Inference] Witness vector size after padding: "
+                  << witness_rnn.size() << "\n";
 
         std::vector<std::vector<F>> witness_matrix_rnn;
         commitment commitment_rnn;
         double commit_before = g_commit_general;
         poly_commit(witness_rnn, witness_matrix_rnn, commitment_rnn, levels);
         double commit_time = g_commit_general - commit_before;
+        std::cout << "[Inference] Witness commitment produced (rows="
+                  << witness_matrix_rnn.size() << ")\n";
 
+        std::cout << "[Inference] Proving forward computation correctness\n";
         prove_rnn_forward(rnn_net, h0);
 
         double prover_time = Forward_propagation_rnn;
