@@ -428,4 +428,5 @@ src/CMakeFiles/zkpot.dir/main.cpp.o: \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/logup.hpp \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/RNN.h \
  /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/proof_serialization.h \
- /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/types.h
+ /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/types.h \
+ /mnt/c/Users/BhavishMohee/Desktop/Master's\ Dissertation/zkRNN/src/witness_snapshot.h

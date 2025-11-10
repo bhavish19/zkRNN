@@ -5857,7 +5857,8 @@ src/CMakeFiles/zkpot.dir/main.cpp.o: ../src/main.cpp \
   ../src/logup.hpp \
   ../src/RNN.h \
   ../src/proof_serialization.h \
-  ../src/types.h
+  ../src/types.h \
+  ../src/witness_snapshot.h
 
 src/CMakeFiles/zkpot.dir/merkle_tree.cpp.o: ../src/merkle_tree.cpp \
   /usr/include/stdc-predef.h \

@@ -23,6 +23,7 @@
 #include "bench.hpp"
 #include "verifier.h"
 #include "proof_serialization.h"
+#include "witness_snapshot.h"
 
 #ifdef _WIN32
 #include <direct.h>
@@ -1695,6 +1696,7 @@ int main(int argc, char *argv[]){
     std::string mode = "train";
     std::string model_path;
     std::string input_path;
+    std::string snapshot_path;
 
     for (int i = 7; i < argc; ++i) {
         std::string arg(argv[i]);
@@ -1704,29 +1706,164 @@ int main(int argc, char *argv[]){
             model_path = arg.substr(8);
         } else if (arg.rfind("--inputs=", 0) == 0) {
             input_path = arg.substr(9);
+        } else if (arg.rfind("--snapshot=", 0) == 0) {
+            snapshot_path = arg.substr(11);
         } else {
             std::fprintf(stderr, "Unknown argument: %s\n", arg.c_str());
             return 1;
         }
     }
 
+    WitnessSnapshot snapshot;
+    bool use_snapshot = false;
+    if (!snapshot_path.empty()) {
+        try {
+            snapshot = LoadWitnessSnapshot(snapshot_path);
+            use_snapshot = true;
+        } catch (const std::exception &e) {
+            std::fprintf(stderr, "[snapshot] Failed to load %s: %s\n",
+                         snapshot_path.c_str(), e.what());
+            return 1;
+        }
+
+        auto adopt_dim = [](int current, int candidate,
+                            const char *label) -> int {
+            if (candidate <= 0)
+                return current;
+            if (current != candidate) {
+                std::fprintf(stderr,
+                             "[snapshot] Overriding %s from %d to %d\n",
+                             label, current, candidate);
+            }
+            return candidate;
+        };
+
+        T = adopt_dim(T, snapshot.seq_len, "seq_len");
+        n = adopt_dim(n, snapshot.input_size, "input_size");
+        m = adopt_dim(m, snapshot.hidden_size, "hidden_size");
+        k = adopt_dim(k, snapshot.output_size, "output_size");
+    }
+
     const bool is_inference = (mode == "infer" || mode == "inference");
 
     vector<vector<F>> X_rnn;
-    if (!input_path.empty()) {
-        if (!load_inputs_from_file(X_rnn, input_path, T, n)) {
+    FieldVector h0;
+    if (use_snapshot) {
+        if (T <= 0 || n <= 0 || m <= 0) {
+            std::fprintf(stderr,
+                         "[snapshot] Invalid dimensions after loading snapshot: "
+                         "T=%d n=%d m=%d\n",
+                         T, n, m);
             return 1;
         }
+        X_rnn.assign(static_cast<size_t>(T), vector<F>(n, F_ZERO));
+        if (!snapshot.input_t0.empty()) {
+            if (static_cast<int>(snapshot.input_t0.size()) != n) {
+                std::fprintf(stderr,
+                             "[snapshot] input_t0 length mismatch: expected %d "
+                             "entries, got %zu\n",
+                             n, snapshot.input_t0.size());
+                return 1;
+            }
+            if (!X_rnn.empty()) {
+                X_rnn[0] = snapshot.input_t0;
+                for (int t = 1; t < T; ++t) {
+                    X_rnn[t] = snapshot.input_t0;
+                }
+            }
+        } else {
+            std::fprintf(stderr,
+                         "[snapshot] input_t0 missing; using zeros for inputs\n");
+        }
+
+        h0.assign(m, F_ZERO);
+        if (!snapshot.h_prev_t0.empty()) {
+            if (static_cast<int>(snapshot.h_prev_t0.size()) != m) {
+                std::fprintf(stderr,
+                             "[snapshot] h_prev_t0 length mismatch: expected %d "
+                             "entries, got %zu\n",
+                             m, snapshot.h_prev_t0.size());
+                return 1;
+            }
+            h0 = snapshot.h_prev_t0;
+        }
     } else {
-        X_rnn = init_input(T, n);
+        if (!input_path.empty()) {
+            if (!load_inputs_from_file(X_rnn, input_path, T, n)) {
+                return 1;
+            }
+        } else {
+            X_rnn = init_input(T, n);
+        }
+        h0.assign(m, F_ZERO);
     }
 
-    vector<F> h0(m, F(0));
     struct rnn_layer rnn_net = rnn_init(T,n,m,k);
 
-    if (!model_path.empty()) {
+    if (!model_path.empty() && use_snapshot) {
+        std::fprintf(stderr,
+                     "[snapshot] Warning: both --model and --snapshot supplied; "
+                     "ignoring model file in favour of snapshot\n");
+    }
+
+    if (!use_snapshot && !model_path.empty()) {
         if (!load_model_from_file(rnn_net, model_path, n, m, k)) {
             return 1;
+        }
+    }
+
+    if (use_snapshot) {
+        auto validate_matrix = [](const std::vector<FieldVector> &mat,
+                                  int rows,
+                                  int cols,
+                                  const char *label) -> bool {
+            if (mat.empty())
+                return true;
+            if (static_cast<int>(mat.size()) != rows) {
+                std::fprintf(stderr,
+                             "[snapshot] %s row mismatch: expected %d, got %zu\n",
+                             label, rows, mat.size());
+                return false;
+            }
+            for (size_t i = 0; i < mat.size(); ++i) {
+                if (static_cast<int>(mat[i].size()) != cols) {
+                    std::fprintf(stderr,
+                                 "[snapshot] %s column mismatch at row %zu: "
+                                 "expected %d, got %zu\n",
+                                 label, i, cols, mat[i].size());
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        if (!validate_matrix(snapshot.W_x, m, n, "W_x") ||
+            !validate_matrix(snapshot.W_h, m, m, "W_h") ||
+            !validate_matrix(snapshot.W_y, k, m, "W_y")) {
+            return 1;
+        }
+
+        if (!snapshot.W_x.empty()) rnn_net.W_x = snapshot.W_x;
+        if (!snapshot.W_h.empty()) rnn_net.W_h = snapshot.W_h;
+        if (!snapshot.W_y.empty()) rnn_net.W_y = snapshot.W_y;
+
+        if (!snapshot.b1.empty()) {
+            if (static_cast<int>(snapshot.b1.size()) != m) {
+                std::fprintf(stderr,
+                             "[snapshot] b1 length mismatch: expected %d, got %zu\n",
+                             m, snapshot.b1.size());
+                return 1;
+            }
+            rnn_net.b1 = snapshot.b1;
+        }
+        if (!snapshot.b2.empty()) {
+            if (static_cast<int>(snapshot.b2.size()) != k) {
+                std::fprintf(stderr,
+                             "[snapshot] b2 length mismatch: expected %d, got %zu\n",
+                             k, snapshot.b2.size());
+                return 1;
+            }
+            rnn_net.b2 = snapshot.b2;
         }
     }
 
@@ -1760,13 +1897,23 @@ int main(int argc, char *argv[]){
 
         prove_rnn_forward(rnn_net, h0);
 
+        double prover_time = Forward_propagation_rnn;
+        double logup_total = logup_acc_total_time;
+        double logup_prove = logup_acc_prove_time;
+
         float forward_proof_size = proof_size(Transcript);
         printf("Inference proof size: %lf\n", forward_proof_size);
+        printf("Inference prover time: %lf\n", prover_time);
+        printf("Commitment time: %lf\n", commit_time);
+        printf("LogUp time (total / prove): %lf / %lf\n", logup_total, logup_prove);
 
         reset_gkr_verifier_time();
         verify_proof(Transcript);
         double inference_verifier_time = get_gkr_verifier_time();
         printf("Inference verifier time: %lf\n", inference_verifier_time);
+
+        double peak_mem = PeakMemGB();
+        printf("Peak resident memory: %.3f GB\n", peak_mem);
 
         BenchmarkRow row;
         row.timestamp = now_iso8601();
@@ -1795,7 +1942,7 @@ int main(int argc, char *argv[]){
         row.verifier_time = inference_verifier_time;
         row.pogd_proof_size = 0.0f;
         row.final_proof_size = forward_proof_size;
-        row.peak_memory = PeakMemGB();
+        row.peak_memory = peak_mem;
 
         append_benchmark_csv("bench_results_infer.csv", row);
         std::fprintf(stderr, "[bench] appended to bench_results_infer.csv\n");
