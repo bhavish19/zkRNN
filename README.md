@@ -1,8 +1,8 @@
-# zkRNN &middot; Zero-Knowledge Proofs for Recurrent Networks
+# zkRNN · Zero-Knowledge Proofs for Recurrent Networks
 
-[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](#) [![Docs](https://img.shields.io/badge/docs-system--documentation-blue.svg)](SYSTEM_DOCUMENTATION.md)
+[![Status](https://img.shields.io/badge/status-active-brightgreen.svg)](#)&nbsp;[![Docs](https://img.shields.io/badge/docs-system--documentation-blue.svg)](SYSTEM_DOCUMENTATION.md)
 
-zkRNN generates zero-knowledge proofs that a quantised recurrent neural network executed a forward pass (and, optionally, training iterations) correctly. This README walks you through the essentials for inference proofs.
+zkRNN generates zero-knowledge proofs that a quantised recurrent neural network executed a forward pass (and, optionally, training iterations) correctly. This README walks through the essentials for inference proofs.
 
 ---
 
@@ -33,13 +33,16 @@ The script configures CMake, builds the prover binary (`build/src/zkpot`), and c
 ## Inference Proof
 
 ### Option A · Convenience script
+
 ```bash
 ./rnn_infer_Nova.sh <T> <input_dim> <hidden_dim> <output_dim> [model_path] [input_path]
 ```
+
 - `model_path` *(optional)* — path to a quantised model file. Random weights are used when omitted.
 - `input_path` *(optional)* — path to quantised inputs. Random inputs are used when omitted.
 
 ### Option B · Direct binary invocation
+
 ```bash
 ./build/src/zkpot T n m k pc_type arity --mode=infer \
   [--model=path/to/model.txt] \
@@ -51,7 +54,7 @@ The script configures CMake, builds the prover binary (`build/src/zkpot`), and c
 |----------|---------|
 | `T` | Sequence length |
 | `n`, `m`, `k` | Input, hidden, and output dimensions |
-| `pc_type` | Polynomial commitment scheme (`1`=Orion, `2`=Virgo) |
+| `pc_type` | Polynomial commitment scheme (`1` = Orion, `2` = Virgo) |
 | `arity` | Aggregation fan-out (use `10` for single-level inference) |
 
 `--snapshot` overrides dimensions/weights with data captured during an earlier run.
@@ -65,9 +68,9 @@ The script configures CMake, builds the prover binary (`build/src/zkpot`), and c
 
 The loader expects `n*m + m*m + k*m + m + k` floating-point scalars in this order:
 
-1. `W_x` – `m` rows &times; `n` columns (row-major)  
-2. `W_h` – `m` &times; `m`  
-3. `W_y` – `k` &times; `m`  
+1. `W_x` – `m` rows × `n` columns (row-major)  
+2. `W_h` – `m` × `m`  
+3. `W_y` – `k` × `m`  
 4. `b1` – `m` entries  
 5. `b2` – `k` entries  
 
@@ -113,7 +116,8 @@ Proof statistics (size, prover/verifier time, commitment cost, peak memory) are 
 | `rnn_test_Nova.sh` | Sample training + aggregation loop |
 
 Internally they all call:
-```
+
+```bash
 ./build/src/zkpot <time_step> <input_size> <hidden_size> <output_size> <pc_type> <arity> [...]
 ```
 
@@ -122,6 +126,7 @@ Internally they all call:
 ## Testing
 
 Run the full suite:
+
 ```bash
 ./tests/run_all_tests.sh
 ```
@@ -147,3 +152,4 @@ Pull requests are welcome! Please open an issue for major changes so we can disc
 ## License
 
 License information to be confirmed. If you plan to redistribute, please clarify terms with the repository owner.
+
