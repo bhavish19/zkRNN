@@ -1,18 +1,74 @@
-To build zkRNN, first
-> chmod +x build.sh
-Then run it by calling :
-> ./build.sh
+## zkRNN Quickstart
 
-For zkRNN run one of the scripts given by running:
-> ./rnn_test_self.sh
+### 1. Build the project
 
-To generate a proof for a fixed forward pass (proof of inference), use:
-> ./rnn_infer_Nova.sh [T] [input] [hidden] [output] [model_path] [input_path]
+```bash
+chmod +x build.sh
+./build.sh
+```
 
-`rnn_infer_Nova.sh` forwards optional `--model` and `--inputs` flags to `zkpot`. When omitted, random weights and inputs are generated.
+`build.sh` configures CMake, compiles the prover binary (`build/src/zkpot`), and builds all test executables in `build/tests/`.
 
-Each script calls ./main {time step} {input size} {hidden size} {output size} {PC type} {arity}
+### 2. Run an inference proof
 
-For {PC type}, 1 corresponds to Orion and 2 to Virgo. 
+You can invoke the helper script or call the binary directly.
 
+#### Option A: convenience script
 
+```bash
+./rnn_infer_Nova.sh <T> <input_dim> <hidden_dim> <output_dim> [model_path] [input_path]
+```
+
+- `model_path` (optional): path to a quantised model file. If omitted, random weights are used.
+- `input_path` (optional): path to quantised inputs. If omitted, random inputs are generated.
+
+The script forwards the arguments to `build/src/zkpot` with sensible defaults.
+
+#### Option B: direct binary invocation
+
+```bash
+./build/src/zkpot T n m k pc_type arity --mode=infer \
+  [--model=path/to/model.txt] \
+  [--inputs=path/to/inputs.txt] \
+  [--snapshot=path/to/snapshot.json]
+```
+
+- `pc_type`: 1 for Orion, 2 for Virgo.
+- `arity`: aggregation branching factor (typically 10 for inference-only runs).
+- `--snapshot`: optional witness snapshot produced by a previous training run; overrides other dimensions when provided.
+
+### 3. Interpreting the output
+
+During inference you will see phase logs similar to:
+
+```
+[Inference] Starting forward pass (T=512, n=256, m=512, k=256)
+[Inference] Witness commitment produced (rows=...)
+[ProveRNN] Forward proof start (T=512, m=512, k=256)
+[ProveRNN]   Softmax lookup commitments
+...
+Inference proof size: 7.500000
+Inference prover time: 3.984866
+Commitment time: 30.105292
+LogUp time (total / prove): 13.569352 / 3.845223
+Inference verifier time: 0.000439
+Peak resident memory: 3.966 GB
+```
+
+Key metrics (proof size, prover/verifier time, commitment cost, peak memory) are appended to `build/src/bench_results_infer.csv` after each run.
+
+### 4. Additional scripts
+
+- `./rnn_test_self.sh` – quick end-to-end smoke test with synthetic data.
+- `./rnn_test_Nova.sh` – sample training/aggregation run (proof of gradient descent).
+
+Both scripts ultimately invoke the same binary:
+
+```
+./build/src/zkpot <time_step> <input_size> <hidden_size> <output_size> <pc_type> <arity> [...]
+```
+
+### 5. Documentation
+
+- `SYSTEM_DOCUMENTATION.md` – architectural overview, build/test workflow, and extension guidance.
+- `tests/TESTING_GUIDE.md` – how to run the staged unit/integration tests.
