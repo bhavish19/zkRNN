@@ -3,6 +3,20 @@
 ## Overview
 This document analyzes the existing zkRNN codebase and explains what needs to be implemented next for the placeholder code to work with the actual proof system.
 
+## Final Implementation Summary
+
+After completing implementation, the zkRNN prover now:
+
+- Uses KAIZEN’s real cryptographic pipeline end-to-end while plugging in SUMMER-style linear proofs per timestep.
+- Builds authentic leaf proofs (MATMUL + RANGE + LOGUP) for each RNN timestep via a rewritten `ProveLeaf`.
+- Aggregates leaves with KAIZEN’s `prove_verification`, serialises/deserialises `struct proof`, and verifies with genuine `verify_matrix2matrix`, `verify_bit_decomposition`, and `verify_gkr`.
+- Loads activation circuits on demand, aligns witnesses to KAIZEN layouts, and constructs auxiliary bit gadgets with two’s-complement masking.
+- Restores KAIZEN’s quantised RNN forward helpers (tanh/softmax, exp batches), provides JSON snapshot dump/load, and allows inference replay via `--snapshot=…`.
+- Instruments inference runs with prover/commit/logup/verifier timings plus peak memory, appending results to `bench_results_infer.csv`.
+- Extends the build to pull in KAIZEN’s logup/poly-commit/expander code for both app and tests, which now cover snapshot loading, activation wiring, IVCAggregate, and orchestrator flows.
+
+The sections below retain the historical analysis for reference.
+
 ## Protocol Design: Hybrid KAIZEN + SUMMER Approach
 
 The implementation follows a **hybrid protocol** that combines:
